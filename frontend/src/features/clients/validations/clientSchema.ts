@@ -52,6 +52,7 @@ export const clientCreateSchema = z.object({
   withholding_236_prepared_by_us: z.boolean().default(false),
   withholding_153_applicable: z.boolean().default(false),
   withholding_153_prepared_by_us: z.boolean().default(false),
+  withholding_filing_frequency: z.string().optional(),
 });
 
 export const clientUpdateSchema = clientCreateSchema.partial();

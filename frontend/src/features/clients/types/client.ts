@@ -30,6 +30,7 @@ export interface Client {
   withholding_236_prepared_by_us: boolean;
   withholding_153_applicable: boolean;
   withholding_153_prepared_by_us: boolean;
+  withholding_filing_frequency: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -66,6 +67,7 @@ export interface ClientCreate {
   withholding_236_prepared_by_us?: boolean;
   withholding_153_applicable?: boolean;
   withholding_153_prepared_by_us?: boolean;
+  withholding_filing_frequency?: string;
 }
 
 export interface ClientUpdate {
@@ -100,6 +102,7 @@ export interface ClientUpdate {
   withholding_236_prepared_by_us?: boolean;
   withholding_153_applicable?: boolean;
   withholding_153_prepared_by_us?: boolean;
+  withholding_filing_frequency?: string;
   id?: number;
 }
 
