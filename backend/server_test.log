@@ -1,0 +1,103 @@
+INFO:     Started server process [14100]
+INFO:     Waiting for application startup.
+2026-07-10 12:59:47,587 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:47,587 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-07-10 12:59:47,588 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,590 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("clients")
+2026-07-10 12:59:47,590 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,591 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("sales_tax_records")
+2026-07-10 12:59:47,591 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,592 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("withholding_records")
+2026-07-10 12:59:47,592 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,592 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("documents")
+2026-07-10 12:59:47,593 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,593 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("document_activity_log")
+2026-07-10 12:59:47,594 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,594 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("saved_filters")
+2026-07-10 12:59:47,594 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,595 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("tasks")
+2026-07-10 12:59:47,595 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,596 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reports")
+2026-07-10 12:59:47,596 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,596 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("backups")
+2026-07-10 12:59:47,596 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,599 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("settings")
+2026-07-10 12:59:47,599 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,600 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("notifications")
+2026-07-10 12:59:47,600 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,602 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:59:47,603 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:47,603 INFO sqlalchemy.engine.Engine SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite~_%' ESCAPE '~' ORDER BY name
+2026-07-10 12:59:47,603 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,603 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:59:47,604 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:47,604 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("clients")
+2026-07-10 12:59:47,604 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,605 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:59:47,605 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:47,606 INFO sqlalchemy.engine.Engine ALTER TABLE clients ADD COLUMN withholding_filing_frequency VARCHAR(20)
+2026-07-10 12:59:47,606 INFO sqlalchemy.engine.Engine [generated in 0.00026s] ()
+2026-07-10 12:59:47,617 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:59:47,617 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:47,617 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("documents")
+2026-07-10 12:59:47,617 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,618 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:59:47,619 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:47,619 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:59:47,619 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:47,619 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("document_activity_log")
+2026-07-10 12:59:47,619 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,620 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:59:47,620 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:47,621 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("notifications")
+2026-07-10 12:59:47,621 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,621 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:59:47,622 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:47,622 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:59:47,622 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:47,622 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("settings")
+2026-07-10 12:59:47,622 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:59:47,623 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:59:47,728 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:47,738 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users) AS anon_1
+2026-07-10 12:59:47,739 INFO sqlalchemy.engine.Engine [generated in 0.00025s] ()
+2026-07-10 12:59:47,739 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:53569 - "GET /health HTTP/1.1" 200 OK
+2026-07-10 12:59:50,573 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:50,576 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:59:50,576 INFO sqlalchemy.engine.Engine [generated in 0.00040s] ('zainkhan', 1, 0)
+INFO:     127.0.0.1:53573 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+2026-07-10 12:59:51,024 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:59:54,050 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:54,050 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:59:54,050 INFO sqlalchemy.engine.Engine [cached since 3.475s ago] ('zainkhan', 1, 0)
+2026-07-10 12:59:54,071 INFO sqlalchemy.engine.Engine SELECT clients.id AS clients_id, clients.client_name AS clients_client_name, clients.business_name AS clients_business_name, clients.cnic AS clients_cnic, clients.ntn AS clients_ntn, clients.strn AS clients_strn, clients.contact_number AS clients_contact_number, clients.email AS clients_email, clients.address AS clients_address, clients.client_password AS clients_client_password, clients.sales_tax_registered AS clients_sales_tax_registered, clients.withholding_registered AS clients_withholding_registered, clients.sales_tax_material_status AS clients_sales_tax_material_status, clients.withholding_236_applied AS clients_withholding_236_applied, clients.withholding_236_prepared_by_us AS clients_withholding_236_prepared_by_us, clients.withholding_153_applicable AS clients_withholding_153_applicable, clients.withholding_153_prepared_by_us AS clients_withholding_153_prepared_by_us, clients.withholding_filing_frequency AS clients_withholding_filing_frequency, clients.kpra_registered AS clients_kpra_registered, clients.notes AS clients_notes, clients.contact_person AS clients_contact_person, clients.contact_person_designation AS clients_contact_person_designation, clients.contact_person_phone AS clients_contact_person_phone, clients.contact_person_email AS clients_contact_person_email, clients.secondary_phone AS clients_secondary_phone, clients.city AS clients_city, clients.province AS clients_province, clients.business_type AS clients_business_type, clients.client_type AS clients_client_type, clients.registration_date AS clients_registration_date, clients.tax_period AS clients_tax_period, clients.fbr_office AS clients_fbr_office, clients.is_active AS clients_is_active, clients.created_at AS clients_created_at, clients.updated_at AS clients_updated_at 
+FROM clients 
+WHERE clients.ntn = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:59:54,071 INFO sqlalchemy.engine.Engine [generated in 0.00050s] ('TEST123', 1, 0)
+2026-07-10 12:59:54,076 INFO sqlalchemy.engine.Engine SELECT clients.id AS clients_id, clients.client_name AS clients_client_name, clients.business_name AS clients_business_name, clients.cnic AS clients_cnic, clients.ntn AS clients_ntn, clients.strn AS clients_strn, clients.contact_number AS clients_contact_number, clients.email AS clients_email, clients.address AS clients_address, clients.client_password AS clients_client_password, clients.sales_tax_registered AS clients_sales_tax_registered, clients.withholding_registered AS clients_withholding_registered, clients.sales_tax_material_status AS clients_sales_tax_material_status, clients.withholding_236_applied AS clients_withholding_236_applied, clients.withholding_236_prepared_by_us AS clients_withholding_236_prepared_by_us, clients.withholding_153_applicable AS clients_withholding_153_applicable, clients.withholding_153_prepared_by_us AS clients_withholding_153_prepared_by_us, clients.withholding_filing_frequency AS clients_withholding_filing_frequency, clients.kpra_registered AS clients_kpra_registered, clients.notes AS clients_notes, clients.contact_person AS clients_contact_person, clients.contact_person_designation AS clients_contact_person_designation, clients.contact_person_phone AS clients_contact_person_phone, clients.contact_person_email AS clients_contact_person_email, clients.secondary_phone AS clients_secondary_phone, clients.city AS clients_city, clients.province AS clients_province, clients.business_type AS clients_business_type, clients.client_type AS clients_client_type, clients.registration_date AS clients_registration_date, clients.tax_period AS clients_tax_period, clients.fbr_office AS clients_fbr_office, clients.is_active AS clients_is_active, clients.created_at AS clients_created_at, clients.updated_at AS clients_updated_at 
+FROM clients 
+WHERE clients.cnic = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:59:54,076 INFO sqlalchemy.engine.Engine [generated in 0.00046s] ('TEST456', 1, 0)
+2026-07-10 12:59:54,085 INFO sqlalchemy.engine.Engine INSERT INTO clients (id, client_name, business_name, cnic, ntn, strn, contact_number, email, address, client_password, sales_tax_registered, withholding_registered, sales_tax_material_status, withholding_236_applied, withholding_236_prepared_by_us, withholding_153_applicable, withholding_153_prepared_by_us, withholding_filing_frequency, kpra_registered, notes, contact_person, contact_person_designation, contact_person_phone, contact_person_email, secondary_phone, city, province, business_type, client_type, registration_date, tax_period, fbr_office, is_active, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-07-10 12:59:54,085 INFO sqlalchemy.engine.Engine [generated in 0.00096s] ('20a246cf-795e-4db3-b8c6-97c25fc2b2e4', 'Test Client', 'Test Business', 'TEST456', 'TEST123', None, '03001234567', None, None, None, 0, 0, 'NIL', 0, 0, 0, 0, None, 0, None, None, None, None, None, None, None, None, None, None, None, None, None, 1, '2026-07-10 07:59:54.085239', '2026-07-10 07:59:54.085246')
+2026-07-10 12:59:54,089 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:59:54,096 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:59:54,102 INFO sqlalchemy.engine.Engine SELECT clients.id, clients.client_name, clients.business_name, clients.cnic, clients.ntn, clients.strn, clients.contact_number, clients.email, clients.address, clients.client_password, clients.sales_tax_registered, clients.withholding_registered, clients.sales_tax_material_status, clients.withholding_236_applied, clients.withholding_236_prepared_by_us, clients.withholding_153_applicable, clients.withholding_153_prepared_by_us, clients.withholding_filing_frequency, clients.kpra_registered, clients.notes, clients.contact_person, clients.contact_person_designation, clients.contact_person_phone, clients.contact_person_email, clients.secondary_phone, clients.city, clients.province, clients.business_type, clients.client_type, clients.registration_date, clients.tax_period, clients.fbr_office, clients.is_active, clients.created_at, clients.updated_at 
+FROM clients 
+WHERE clients.id = ?
+2026-07-10 12:59:54,102 INFO sqlalchemy.engine.Engine [generated in 0.00042s] ('20a246cf-795e-4db3-b8c6-97c25fc2b2e4',)
+INFO:     127.0.0.1:53575 - "POST /api/v1/clients/ HTTP/1.1" 201 Created
+2026-07-10 12:59:54,108 INFO sqlalchemy.engine.Engine ROLLBACK

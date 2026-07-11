@@ -1,0 +1,355 @@
+2026-07-10 12:51:25,935 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:51:25,936 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-07-10 12:51:25,937 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,939 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("clients")
+2026-07-10 12:51:25,940 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,941 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("sales_tax_records")
+2026-07-10 12:51:25,941 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,942 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("withholding_records")
+2026-07-10 12:51:25,943 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,944 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("documents")
+2026-07-10 12:51:25,944 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,945 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("document_activity_log")
+2026-07-10 12:51:25,946 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,946 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("saved_filters")
+2026-07-10 12:51:25,947 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,948 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("tasks")
+2026-07-10 12:51:25,950 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,952 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reports")
+2026-07-10 12:51:25,952 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,953 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("backups")
+2026-07-10 12:51:25,954 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,955 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("settings")
+2026-07-10 12:51:25,955 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,956 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("notifications")
+2026-07-10 12:51:25,957 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,959 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:51:25,960 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:51:25,960 INFO sqlalchemy.engine.Engine SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite~_%' ESCAPE '~' ORDER BY name
+2026-07-10 12:51:25,961 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,962 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:51:25,963 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:51:25,963 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("clients")
+2026-07-10 12:51:25,964 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,968 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:51:25,969 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:51:25,970 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:51:25,971 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:51:25,971 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("documents")
+2026-07-10 12:51:25,972 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,973 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:51:25,974 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:51:25,974 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:51:25,975 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:51:25,975 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("document_activity_log")
+2026-07-10 12:51:25,976 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,977 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:51:25,977 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:51:25,978 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("notifications")
+2026-07-10 12:51:25,978 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,979 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:51:25,980 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:51:25,980 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:51:25,983 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:51:25,984 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("settings")
+2026-07-10 12:51:25,985 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:51:25,986 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:51:26,120 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:51:26,134 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users) AS anon_1
+2026-07-10 12:51:26,135 INFO sqlalchemy.engine.Engine [generated in 0.00081s] ()
+2026-07-10 12:51:26,136 INFO sqlalchemy.engine.Engine ROLLBACK
+ 2026-07-10 12:55:05,394 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:05,397 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:05,398 INFO sqlalchemy.engine.Engine [generated in 0.00071s] ('zainkhan', 1, 0)
+2026-07-10 12:55:05,404 INFO sqlalchemy.engine.Engine SELECT notifications.id AS notifications_id, notifications.user_id AS notifications_user_id, notifications.notification_type AS notifications_notification_type, notifications.priority AS notifications_priority, notifications.title AS notifications_title, notifications.message AS notifications_message, notifications.is_read AS notifications_is_read, notifications.link AS notifications_link, notifications.client_id AS notifications_client_id, notifications.task_id AS notifications_task_id, notifications.created_at AS notifications_created_at 
+FROM notifications 
+WHERE notifications.user_id = ? ORDER BY notifications.created_at DESC
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:05,404 INFO sqlalchemy.engine.Engine [generated in 0.00069s] ('00000000-0000-0000-0000-000000000001', 10, 0)
+INFO:     127.0.0.1:59171 - "GET /api/v1/notifications/?limit=10 HTTP/1.1" 200 OK
+2026-07-10 12:55:05,414 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:05,462 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:05,463 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:05,464 INFO sqlalchemy.engine.Engine [cached since 0.06682s ago] ('zainkhan', 1, 0)
+2026-07-10 12:55:05,471 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT notifications.id AS notifications_id, notifications.user_id AS notifications_user_id, notifications.notification_type AS notifications_notification_type, notifications.priority AS notifications_priority, notifications.title AS notifications_title, notifications.message AS notifications_message, notifications.is_read AS notifications_is_read, notifications.link AS notifications_link, notifications.client_id AS notifications_client_id, notifications.task_id AS notifications_task_id, notifications.created_at AS notifications_created_at 
+FROM notifications 
+WHERE notifications.user_id = ? AND notifications.is_read = 0) AS anon_1
+2026-07-10 12:55:05,473 INFO sqlalchemy.engine.Engine [generated in 0.00206s] ('00000000-0000-0000-0000-000000000001',)
+INFO:     127.0.0.1:59173 - "GET /api/v1/notifications/unread-count HTTP/1.1" 200 OK
+2026-07-10 12:55:05,477 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:05,483 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:05,484 INFO sqlalchemy.engine.Engine [cached since 0.08694s ago] ('zainkhan', 1, 0)
+2026-07-10 12:55:05,487 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:05,530 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT clients.id AS clients_id, clients.client_name AS clients_client_name, clients.business_name AS clients_business_name, clients.cnic AS clients_cnic, clients.ntn AS clients_ntn, clients.strn AS clients_strn, clients.contact_number AS clients_contact_number, clients.email AS clients_email, clients.address AS clients_address, clients.client_password AS clients_client_password, clients.sales_tax_registered AS clients_sales_tax_registered, clients.withholding_registered AS clients_withholding_registered, clients.sales_tax_material_status AS clients_sales_tax_material_status, clients.withholding_236_applied AS clients_withholding_236_applied, clients.withholding_236_prepared_by_us AS clients_withholding_236_prepared_by_us, clients.withholding_153_applicable AS clients_withholding_153_applicable, clients.withholding_153_prepared_by_us AS clients_withholding_153_prepared_by_us, clients.withholding_filing_frequency AS clients_withholding_filing_frequency, clients.kpra_registered AS clients_kpra_registered, clients.notes AS clients_notes, clients.contact_person AS clients_contact_person, clients.contact_person_designation AS clients_contact_person_designation, clients.contact_person_phone AS clients_contact_person_phone, clients.contact_person_email AS clients_contact_person_email, clients.secondary_phone AS clients_secondary_phone, clients.city AS clients_city, clients.province AS clients_province, clients.business_type AS clients_business_type, clients.client_type AS clients_client_type, clients.registration_date AS clients_registration_date, clients.tax_period AS clients_tax_period, clients.fbr_office AS clients_fbr_office, clients.is_active AS clients_is_active, clients.created_at AS clients_created_at, clients.updated_at AS clients_updated_at 
+FROM clients ORDER BY clients.created_at DESC) AS anon_1
+2026-07-10 12:55:05,533 INFO sqlalchemy.engine.Engine [generated in 0.00350s] ()
+2026-07-10 12:55:05,535 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53114 - "GET /api/v1/clients/?page=1&limit=25&sort_by=created_at&sort_order=desc HTTP/1.1" 500 Internal Server Error
+2026-07-10 12:55:12,284 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,285 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-07-10 12:55:12,286 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,290 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("clients")
+2026-07-10 12:55:12,290 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,292 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("sales_tax_records")
+2026-07-10 12:55:12,292 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,293 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("withholding_records")
+2026-07-10 12:55:12,294 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,294 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("documents")
+2026-07-10 12:55:12,295 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,296 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("document_activity_log")
+2026-07-10 12:55:12,297 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,298 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("saved_filters")
+2026-07-10 12:55:12,299 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,300 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("tasks")
+2026-07-10 12:55:12,301 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,302 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reports")
+2026-07-10 12:55:12,302 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,303 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("backups")
+2026-07-10 12:55:12,304 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,306 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("settings")
+2026-07-10 12:55:12,307 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,309 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("notifications")
+2026-07-10 12:55:12,309 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,311 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:55:12,312 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,313 INFO sqlalchemy.engine.Engine SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite~_%' ESCAPE '~' ORDER BY name
+2026-07-10 12:55:12,313 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,314 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:12,315 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,315 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("clients")
+2026-07-10 12:55:12,316 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,318 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:12,319 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,319 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:55:12,320 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,320 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("documents")
+2026-07-10 12:55:12,321 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,325 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:12,325 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,326 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:55:12,327 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,327 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("document_activity_log")
+2026-07-10 12:55:12,328 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,329 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:12,330 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,331 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("notifications")
+2026-07-10 12:55:12,331 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,332 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:12,333 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,334 INFO sqlalchemy.engine.Engine COMMIT
+2026-07-10 12:55:12,334 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,335 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("settings")
+2026-07-10 12:55:12,335 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-07-10 12:55:12,336 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:12,468 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,481 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users) AS anon_1
+2026-07-10 12:55:12,481 INFO sqlalchemy.engine.Engine [generated in 0.00070s] ()
+2026-07-10 12:55:12,483 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:12,521 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:12,531 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:12,531 INFO sqlalchemy.engine.Engine [generated in 0.00096s] ('zainkhan', 1, 0)
+2026-07-10 12:55:12,996 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:14,418 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:14,424 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:14,424 INFO sqlalchemy.engine.Engine [cached since 1.894s ago] ('zainkhan', 1, 0)
+2026-07-10 12:55:14,430 INFO sqlalchemy.engine.Engine SELECT notifications.id AS notifications_id, notifications.user_id AS notifications_user_id, notifications.notification_type AS notifications_notification_type, notifications.priority AS notifications_priority, notifications.title AS notifications_title, notifications.message AS notifications_message, notifications.is_read AS notifications_is_read, notifications.link AS notifications_link, notifications.client_id AS notifications_client_id, notifications.task_id AS notifications_task_id, notifications.created_at AS notifications_created_at 
+FROM notifications 
+WHERE notifications.user_id = ? ORDER BY notifications.created_at DESC
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:14,431 INFO sqlalchemy.engine.Engine [generated in 0.00084s] ('00000000-0000-0000-0000-000000000001', 10, 0)
+INFO:     127.0.0.1:61820 - "GET /api/v1/notifications/?limit=10 HTTP/1.1" 200 OK
+2026-07-10 12:55:14,438 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:14,440 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:14,441 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:14,442 INFO sqlalchemy.engine.Engine [cached since 1.911s ago] ('zainkhan', 1, 0)
+2026-07-10 12:55:14,445 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:14,446 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:14,446 INFO sqlalchemy.engine.Engine [cached since 1.916s ago] ('zainkhan', 1, 0)
+2026-07-10 12:55:14,464 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT notifications.id AS notifications_id, notifications.user_id AS notifications_user_id, notifications.notification_type AS notifications_notification_type, notifications.priority AS notifications_priority, notifications.title AS notifications_title, notifications.message AS notifications_message, notifications.is_read AS notifications_is_read, notifications.link AS notifications_link, notifications.client_id AS notifications_client_id, notifications.task_id AS notifications_task_id, notifications.created_at AS notifications_created_at 
+FROM notifications 
+WHERE notifications.user_id = ? AND notifications.is_read = 0) AS anon_1
+2026-07-10 12:55:14,464 INFO sqlalchemy.engine.Engine [generated in 0.00075s] ('00000000-0000-0000-0000-000000000001',)
+INFO:     127.0.0.1:61821 - "GET /api/v1/notifications/unread-count HTTP/1.1" 200 OK
+2026-07-10 12:55:14,480 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT clients.id AS clients_id, clients.client_name AS clients_client_name, clients.business_name AS clients_business_name, clients.cnic AS clients_cnic, clients.ntn AS clients_ntn, clients.strn AS clients_strn, clients.contact_number AS clients_contact_number, clients.email AS clients_email, clients.address AS clients_address, clients.client_password AS clients_client_password, clients.sales_tax_registered AS clients_sales_tax_registered, clients.withholding_registered AS clients_withholding_registered, clients.sales_tax_material_status AS clients_sales_tax_material_status, clients.withholding_236_applied AS clients_withholding_236_applied, clients.withholding_236_prepared_by_us AS clients_withholding_236_prepared_by_us, clients.withholding_153_applicable AS clients_withholding_153_applicable, clients.withholding_153_prepared_by_us AS clients_withholding_153_prepared_by_us, clients.withholding_filing_frequency AS clients_withholding_filing_frequency, clients.kpra_registered AS clients_kpra_registered, clients.notes AS clients_notes, clients.contact_person AS clients_contact_person, clients.contact_person_designation AS clients_contact_person_designation, clients.contact_person_phone AS clients_contact_person_phone, clients.contact_person_email AS clients_contact_person_email, clients.secondary_phone AS clients_secondary_phone, clients.city AS clients_city, clients.province AS clients_province, clients.business_type AS clients_business_type, clients.client_type AS clients_client_type, clients.registration_date AS clients_registration_date, clients.tax_period AS clients_tax_period, clients.fbr_office AS clients_fbr_office, clients.is_active AS clients_is_active, clients.created_at AS clients_created_at, clients.updated_at AS clients_updated_at 
+FROM clients ORDER BY clients.created_at DESC) AS anon_1
+2026-07-10 12:55:14,480 INFO sqlalchemy.engine.Engine [generated in 0.00076s] ()
+2026-07-10 12:55:14,480 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:14,482 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:61822 - "GET /api/v1/clients/?page=1&limit=25&sort_by=created_at&sort_order=desc HTTP/1.1" 500 Internal Server Error
+2026-07-10 12:55:15,566 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:15,567 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:15,568 INFO sqlalchemy.engine.Engine [cached since 3.037s ago] ('zainkhan', 1, 0)
+2026-07-10 12:55:15,571 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT clients.id AS clients_id, clients.client_name AS clients_client_name, clients.business_name AS clients_business_name, clients.cnic AS clients_cnic, clients.ntn AS clients_ntn, clients.strn AS clients_strn, clients.contact_number AS clients_contact_number, clients.email AS clients_email, clients.address AS clients_address, clients.client_password AS clients_client_password, clients.sales_tax_registered AS clients_sales_tax_registered, clients.withholding_registered AS clients_withholding_registered, clients.sales_tax_material_status AS clients_sales_tax_material_status, clients.withholding_236_applied AS clients_withholding_236_applied, clients.withholding_236_prepared_by_us AS clients_withholding_236_prepared_by_us, clients.withholding_153_applicable AS clients_withholding_153_applicable, clients.withholding_153_prepared_by_us AS clients_withholding_153_prepared_by_us, clients.withholding_filing_frequency AS clients_withholding_filing_frequency, clients.kpra_registered AS clients_kpra_registered, clients.notes AS clients_notes, clients.contact_person AS clients_contact_person, clients.contact_person_designation AS clients_contact_person_designation, clients.contact_person_phone AS clients_contact_person_phone, clients.contact_person_email AS clients_contact_person_email, clients.secondary_phone AS clients_secondary_phone, clients.city AS clients_city, clients.province AS clients_province, clients.business_type AS clients_business_type, clients.client_type AS clients_client_type, clients.registration_date AS clients_registration_date, clients.tax_period AS clients_tax_period, clients.fbr_office AS clients_fbr_office, clients.is_active AS clients_is_active, clients.created_at AS clients_created_at, clients.updated_at AS clients_updated_at 
+FROM clients ORDER BY clients.created_at DESC) AS anon_1
+2026-07-10 12:55:15,573 INFO sqlalchemy.engine.Engine [cached since 1.094s ago] ()
+2026-07-10 12:55:15,575 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:61825 - "GET /api/v1/clients/?page=1&limit=25&sort_by=created_at&sort_order=desc HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:61833 - "GET /api/v1/documents?sort_by=upload_date&sort_order=desc&page=1&limit=25 HTTP/1.1" 307 Temporary Redirect
+2026-07-10 12:55:20,258 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:20,259 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:20,260 INFO sqlalchemy.engine.Engine [cached since 7.73s ago] ('zainkhan', 1, 0)
+2026-07-10 12:55:20,262 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:20,266 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:20,266 INFO sqlalchemy.engine.Engine [cached since 7.736s ago] ('zainkhan', 1, 0)
+2026-07-10 12:55:20,295 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0) AS anon_1
+2026-07-10 12:55:20,303 INFO sqlalchemy.engine.Engine [generated in 0.00782s] ()
+2026-07-10 12:55:20,327 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.file_type = ?) AS anon_1
+2026-07-10 12:55:20,331 INFO sqlalchemy.engine.Engine [generated in 0.00375s] ('PDF',)
+2026-07-10 12:55:20,333 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.file_type = ?) AS anon_1
+2026-07-10 12:55:20,336 INFO sqlalchemy.engine.Engine [cached since 0.008739s ago] ('EXCEL',)
+2026-07-10 12:55:20,355 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.upload_date >= ?) AS anon_1
+2026-07-10 12:55:20,362 INFO sqlalchemy.engine.Engine [generated in 0.00791s] ('2026-07-09 07:55:20.268414',)
+2026-07-10 12:55:20,365 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.upload_date >= ?) AS anon_1
+2026-07-10 12:55:20,373 INFO sqlalchemy.engine.Engine [cached since 0.01853s ago] ('2026-07-03 07:55:20.268414',)
+2026-07-10 12:55:20,396 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.is_missing = 1) AS anon_1
+2026-07-10 12:55:20,396 INFO sqlalchemy.engine.Engine [generated in 0.00950s] ()
+2026-07-10 12:55:20,399 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.upload_date >= ?) AS anon_1
+2026-07-10 12:55:20,402 INFO sqlalchemy.engine.Engine [cached since 0.04784s ago] ('2026-07-01 00:00:00.000000',)
+2026-07-10 12:55:20,420 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.upload_date >= ? AND documents.upload_date < ?) AS anon_1
+2026-07-10 12:55:20,422 INFO sqlalchemy.engine.Engine [generated in 0.00171s] ('2026-06-01 00:00:00.000000', '2026-07-01 00:00:00.000000')
+2026-07-10 12:55:20,426 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.upload_date >= ? AND documents.upload_date < ?) AS anon_1
+2026-07-10 12:55:20,428 INFO sqlalchemy.engine.Engine [cached since 0.007925s ago] ('2026-02-01 00:00:00.000000', '2026-03-01 00:00:00.000000')
+2026-07-10 12:55:20,431 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.upload_date >= ? AND documents.upload_date < ?) AS anon_1
+2026-07-10 12:55:20,432 INFO sqlalchemy.engine.Engine [cached since 0.01172s ago] ('2026-03-01 00:00:00.000000', '2026-04-01 00:00:00.000000')
+2026-07-10 12:55:20,433 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.upload_date >= ? AND documents.upload_date < ?) AS anon_1
+2026-07-10 12:55:20,434 INFO sqlalchemy.engine.Engine [cached since 0.01409s ago] ('2026-04-01 00:00:00.000000', '2026-05-01 00:00:00.000000')
+2026-07-10 12:55:20,436 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.upload_date >= ? AND documents.upload_date < ?) AS anon_1
+2026-07-10 12:55:20,437 INFO sqlalchemy.engine.Engine [cached since 0.01692s ago] ('2026-05-01 00:00:00.000000', '2026-06-01 00:00:00.000000')
+2026-07-10 12:55:20,440 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.upload_date >= ? AND documents.upload_date < ?) AS anon_1
+INFO:     127.0.0.1:52840 - "GET /api/v1/folders/tree HTTP/1.1" 200 OK
+2026-07-10 12:55:20,469 INFO sqlalchemy.engine.Engine [cached since 0.04924s ago] ('2026-06-01 00:00:00.000000', '2026-07-01 00:00:00.000000')
+2026-07-10 12:55:20,471 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:20,475 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 AND documents.upload_date >= ? AND documents.upload_date < ?) AS anon_1
+2026-07-10 12:55:20,482 INFO sqlalchemy.engine.Engine [cached since 0.06223s ago] ('2026-07-01 00:00:00.000000', '2026-08-01 00:00:00.000000')
+2026-07-10 12:55:20,486 INFO sqlalchemy.engine.Engine SELECT count(distinct(documents.client_id)) AS count_1 
+FROM documents 
+WHERE documents.is_missing = 1 AND documents.is_deleted = 0
+2026-07-10 12:55:20,515 INFO sqlalchemy.engine.Engine [generated in 0.02977s] ()
+INFO:     127.0.0.1:52839 - "GET /api/v1/documents/stats HTTP/1.1" 200 OK
+2026-07-10 12:55:20,520 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-07-10 12:55:20,579 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:20,580 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:20,581 INFO sqlalchemy.engine.Engine [cached since 8.05s ago] ('zainkhan', 1, 0)
+2026-07-10 12:55:20,584 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0) AS anon_1
+2026-07-10 12:55:20,585 INFO sqlalchemy.engine.Engine [cached since 0.2898s ago] ()
+2026-07-10 12:55:20,621 INFO sqlalchemy.engine.Engine SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 ORDER BY documents.upload_date DESC
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:20,622 INFO sqlalchemy.engine.Engine [generated in 0.00073s] (25, 0)
+2026-07-10 12:55:20,674 INFO sqlalchemy.engine.Engine SELECT clients.id AS clients_id, clients.client_name AS clients_client_name, clients.business_name AS clients_business_name, clients.cnic AS clients_cnic, clients.ntn AS clients_ntn, clients.strn AS clients_strn, clients.contact_number AS clients_contact_number, clients.email AS clients_email, clients.address AS clients_address, clients.client_password AS clients_client_password, clients.sales_tax_registered AS clients_sales_tax_registered, clients.withholding_registered AS clients_withholding_registered, clients.sales_tax_material_status AS clients_sales_tax_material_status, clients.withholding_236_applied AS clients_withholding_236_applied, clients.withholding_236_prepared_by_us AS clients_withholding_236_prepared_by_us, clients.withholding_153_applicable AS clients_withholding_153_applicable, clients.withholding_153_prepared_by_us AS clients_withholding_153_prepared_by_us, clients.withholding_filing_frequency AS clients_withholding_filing_frequency, clients.kpra_registered AS clients_kpra_registered, clients.notes AS clients_notes, clients.contact_person AS clients_contact_person, clients.contact_person_designation AS clients_contact_person_designation, clients.contact_person_phone AS clients_contact_person_phone, clients.contact_person_email AS clients_contact_person_email, clients.secondary_phone AS clients_secondary_phone, clients.city AS clients_city, clients.province AS clients_province, clients.business_type AS clients_business_type, clients.client_type AS clients_client_type, clients.registration_date AS clients_registration_date, clients.tax_period AS clients_tax_period, clients.fbr_office AS clients_fbr_office, clients.is_active AS clients_is_active, clients.created_at AS clients_created_at, clients.updated_at AS clients_updated_at 
+FROM clients 
+WHERE clients.id = ?
+2026-07-10 12:55:20,675 INFO sqlalchemy.engine.Engine [generated in 0.00083s] ('15f1a557-dd77-4679-b44c-3f904918ea2b',)
+2026-07-10 12:55:20,676 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50540 - "GET /api/v1/documents/?sort_by=upload_date&sort_order=desc&page=1&limit=25 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:57959 - "GET /api/v1/documents?sort_by=upload_date&sort_order=desc&page=1&limit=25 HTTP/1.1" 307 Temporary Redirect
+2026-07-10 12:55:22,457 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-07-10 12:55:22,458 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.full_name AS users_full_name, users.username AS users_username, users.password_hash AS users_password_hash, users.email AS users_email, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:22,459 INFO sqlalchemy.engine.Engine [cached since 9.929s ago] ('zainkhan', 1, 0)
+2026-07-10 12:55:22,462 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0) AS anon_1
+2026-07-10 12:55:22,463 INFO sqlalchemy.engine.Engine [cached since 2.168s ago] ()
+2026-07-10 12:55:22,465 INFO sqlalchemy.engine.Engine SELECT documents.id AS documents_id, documents.client_id AS documents_client_id, documents.file_name AS documents_file_name, documents.original_file_name AS documents_original_file_name, documents.file_extension AS documents_file_extension, documents.file_size AS documents_file_size, documents.file_path AS documents_file_path, documents.file_type AS documents_file_type, documents.doc_category AS documents_doc_category, documents.classification_method AS documents_classification_method, documents.classification_confidence AS documents_classification_confidence, documents.tax_year AS documents_tax_year, documents.tax_month AS documents_tax_month, documents.filing_status AS documents_filing_status, documents.is_missing AS documents_is_missing, documents.document_date AS documents_document_date, documents.expiry_date AS documents_expiry_date, documents.upload_date AS documents_upload_date, documents.uploaded_by AS documents_uploaded_by, documents.deleted_at AS documents_deleted_at, documents.is_deleted AS documents_is_deleted, documents.version AS documents_version, documents.parent_document_id AS documents_parent_document_id, documents.notes AS documents_notes, documents.tags AS documents_tags, documents.custom_metadata AS documents_custom_metadata, documents.batch_id AS documents_batch_id, documents.checksum AS documents_checksum, documents.created_at AS documents_created_at, documents.updated_at AS documents_updated_at 
+FROM documents 
+WHERE documents.is_deleted = 0 ORDER BY documents.upload_date DESC
+ LIMIT ? OFFSET ?
+2026-07-10 12:55:22,465 INFO sqlalchemy.engine.Engine [cached since 1.844s ago] (25, 0)
+2026-07-10 12:55:22,468 INFO sqlalchemy.engine.Engine SELECT clients.id AS clients_id, clients.client_name AS clients_client_name, clients.business_name AS clients_business_name, clients.cnic AS clients_cnic, clients.ntn AS clients_ntn, clients.strn AS clients_strn, clients.contact_number AS clients_contact_number, clients.email AS clients_email, clients.address AS clients_address, clients.client_password AS clients_client_password, clients.sales_tax_registered AS clients_sales_tax_registered, clients.withholding_registered AS clients_withholding_registered, clients.sales_tax_material_status AS clients_sales_tax_material_status, clients.withholding_236_applied AS clients_withholding_236_applied, clients.withholding_236_prepared_by_us AS clients_withholding_236_prepared_by_us, clients.withholding_153_applicable AS clients_withholding_153_applicable, clients.withholding_153_prepared_by_us AS clients_withholding_153_prepared_by_us, clients.withholding_filing_frequency AS clients_withholding_filing_frequency, clients.kpra_registered AS clients_kpra_registered, clients.notes AS clients_notes, clients.contact_person AS clients_contact_person, clients.contact_person_designation AS clients_contact_person_designation, clients.contact_person_phone AS clients_contact_person_phone, clients.contact_person_email AS clients_contact_person_email, clients.secondary_phone AS clients_secondary_phone, clients.city AS clients_city, clients.province AS clients_province, clients.business_type AS clients_business_type, clients.client_type AS clients_client_type, clients.registration_date AS clients_registration_date, clients.tax_period AS clients_tax_period, clients.fbr_office AS clients_fbr_office, clients.is_active AS clients_is_active, clients.created_at AS clients_created_at, clients.updated_at AS clients_updated_at 
+FROM clients 
+WHERE clients.id = ?
+2026-07-10 12:55:22,476 INFO sqlalchemy.engine.Engine [cached since 1.802s ago] ('15f1a557-dd77-4679-b44c-3f904918ea2b',)
+2026-07-10 12:55:22,485 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53861 - "GET /api/v1/documents/?sort_by=upload_date&sort_order=desc&page=1&limit=25 HTTP/1.1" 500 Internal Server Error

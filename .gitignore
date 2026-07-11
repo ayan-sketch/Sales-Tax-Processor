@@ -1,0 +1,12 @@
+node_modules/
+venv/
+.env
+.env.production
+.pytest_cache/
+.vite/
+__pycache__/
+logs/
+storage/
+backups/
+*.db
+*.pyc
