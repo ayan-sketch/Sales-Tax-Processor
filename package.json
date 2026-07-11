@@ -1,7 +1,13 @@
 {
+  "name": "sales-tax-processor",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend"
+  ],
   "scripts": {
-    "dev": "cd frontend && npm run dev",
-    "build": "cd frontend && npm install && npm run build",
-    "preview": "cd frontend && npm run preview"
+    "dev": "npm run dev --workspace=frontend -- --host 0.0.0.0 --port 3000",
+    "build": "npm run build --workspace=frontend",
+    "preview": "npm run preview --workspace=frontend -- --host 0.0.0.0 --port 3000"
   }
 }
