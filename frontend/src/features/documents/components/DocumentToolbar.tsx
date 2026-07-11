@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import { Search, SlidersHorizontal, X, ArrowUpDown } from 'lucide-react'
 import { useFilterStore } from '../stores/useFilterStore'
-import { useDocumentStore } from '../stores/useDocumentStore'
 import { ViewToggle } from './ViewToggle'
 import type { SortField, DocumentType } from '../types/document'
 import {
