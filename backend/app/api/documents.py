@@ -252,6 +252,10 @@ async def upload_document(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
+    # Client/document IDs are stored as VARCHAR; coerce the parsed UUID to str
+    # so PostgreSQL does not attempt a varchar = uuid comparison.
+    client_id = str(client_id)
+
     # Validate client
     client = db.query(Client).filter(Client.id == client_id).first()
     if not client:
@@ -362,13 +366,16 @@ async def upload_batch(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
+    # Client/document IDs are stored as VARCHAR; coerce parsed UUIDs to str.
+    client_id = str(client_id)
+
     # Validate client
     client = db.query(Client).filter(Client.id == client_id).first()
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
 
     results = {"success": [], "errors": [], "skipped": []}
-    batch_id = uuid.uuid4()
+    batch_id = str(uuid.uuid4())
     now = datetime.now()
 
     for upload_file in files:
