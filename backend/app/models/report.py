@@ -11,6 +11,7 @@ class Report(Base):
     report_name = Column(Text, nullable=False)
     report_type = Column(String(100), nullable=False)
     generated_by = Column(Text, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    owner_id = Column(Text, ForeignKey("users.id", ondelete="RESTRICT"), nullable=False, index=True)
     file_path = Column(Text, nullable=True)
     generated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 

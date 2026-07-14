@@ -11,7 +11,12 @@ from app.models.withholding import WithholdingRecord, WithholdingType
 from app.models.task import Task, TaskStatus, TaskPriority
 from app.models.report import Report
 from app.models.document import Document
-from app.api.deps import get_current_active_user
+from app.api.deps import (
+    get_current_active_user,
+    get_accessible_client,
+    scope_owned_clients,
+    scope_client_resource,
+)
 from app.models.user import User
 
 router = APIRouter()
@@ -48,7 +53,7 @@ def generate_compliance_report(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    query = db.query(Client)
+    query = scope_owned_clients(db.query(Client), current_user)
     
     if request.client_id:
         query = query.filter(Client.id == request.client_id)
@@ -111,7 +116,7 @@ def generate_sales_tax_report(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    query = db.query(SalesTaxRecord).join(Client)
+    query = scope_client_resource(db.query(SalesTaxRecord), SalesTaxRecord, current_user)
     
     if request.client_id:
         query = query.filter(SalesTaxRecord.client_id == request.client_id)
@@ -152,7 +157,7 @@ def generate_withholding_report(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    query = db.query(WithholdingRecord).join(Client)
+    query = scope_client_resource(db.query(WithholdingRecord), WithholdingRecord, current_user)
     
     if request.client_id:
         query = query.filter(WithholdingRecord.client_id == request.client_id)
@@ -200,7 +205,7 @@ def generate_task_report(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    query = db.query(Task)
+    query = scope_client_resource(db.query(Task), Task, current_user)
     
     if request.client_id:
         query = query.filter(Task.client_id == request.client_id)
@@ -248,7 +253,7 @@ def generate_client_summary(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    client = db.query(Client).filter(Client.id == client_id).first()
+    client = get_accessible_client(db, client_id, current_user)
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
     

@@ -7,7 +7,12 @@ from datetime import date
 from app.db.session import get_db
 from app.models.sales_tax import SalesTaxRecord, SalesTaxStatus
 from app.models.document import Document
-from app.api.deps import get_current_active_user
+from app.api.deps import (
+    get_current_active_user,
+    get_accessible_client,
+    get_accessible_resource,
+    scope_client_resource,
+)
 from app.models.user import User
 
 router = APIRouter()
@@ -59,7 +64,7 @@ def create_sales_tax_record(
 ):
     # Check if client exists
     from app.models.client import Client
-    client = db.query(Client).filter(Client.id == str(client_id)).first()
+    client = get_accessible_client(db, client_id, current_user)
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
     
@@ -155,7 +160,7 @@ def get_sales_tax_records(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    query = db.query(SalesTaxRecord)
+    query = scope_client_resource(db.query(SalesTaxRecord), SalesTaxRecord, current_user)
     
     if client_id:
         query = query.filter(SalesTaxRecord.client_id == str(client_id))
@@ -190,7 +195,7 @@ def get_sales_tax_record(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    record = db.query(SalesTaxRecord).filter(SalesTaxRecord.id == record_id).first()
+    record = get_accessible_resource(db, SalesTaxRecord, record_id, current_user, "Record not found")
     if not record:
         raise HTTPException(status_code=404, detail="Record not found")
     return record
@@ -202,7 +207,7 @@ def update_sales_tax_record(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    record = db.query(SalesTaxRecord).filter(SalesTaxRecord.id == record_id).first()
+    record = get_accessible_resource(db, SalesTaxRecord, record_id, current_user, "Record not found")
     if not record:
         raise HTTPException(status_code=404, detail="Record not found")
     
@@ -220,7 +225,7 @@ def delete_sales_tax_record(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    record = db.query(SalesTaxRecord).filter(SalesTaxRecord.id == record_id).first()
+    record = get_accessible_resource(db, SalesTaxRecord, record_id, current_user, "Record not found")
     if not record:
         raise HTTPException(status_code=404, detail="Record not found")
     

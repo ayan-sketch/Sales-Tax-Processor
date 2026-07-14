@@ -9,7 +9,7 @@ from app.models.sales_tax import SalesTaxRecord
 from app.models.withholding import WithholdingRecord
 from app.models.document import Document
 from app.models.task import Task
-from app.api.deps import get_current_active_user
+from app.api.deps import get_current_active_user, scope_owned_clients, scope_client_resource
 from app.models.user import User
 
 router = APIRouter()
@@ -30,7 +30,7 @@ def global_search(
     search_term = f"%{q}%"
     
     # Search clients
-    clients = db.query(Client).filter(
+    clients = scope_owned_clients(db.query(Client), current_user).filter(
         (Client.client_name.ilike(search_term)) |
         (Client.ntn.ilike(search_term)) |
         (Client.cnic.ilike(search_term)) |
@@ -39,25 +39,25 @@ def global_search(
     ).limit(10).all()
     
     # Search documents
-    documents = db.query(Document).filter(
+    documents = scope_client_resource(db.query(Document), Document, current_user).filter(
         (Document.original_file_name.ilike(search_term)) |
         (Document.file_name.ilike(search_term))
     ).limit(10).all()
     
     # Search withholding
-    withholding = db.query(WithholdingRecord).filter(
+    withholding = scope_client_resource(db.query(WithholdingRecord), WithholdingRecord, current_user).filter(
         (WithholdingRecord.challan_number.ilike(search_term)) |
         (WithholdingRecord.period.ilike(search_term))
     ).limit(10).all()
     
     # Search tasks
-    tasks = db.query(Task).filter(
+    tasks = scope_client_resource(db.query(Task), Task, current_user).filter(
         (Task.title.ilike(search_term)) |
         (Task.description.ilike(search_term))
     ).limit(10).all()
     
     # Search sales tax
-    sales_tax = db.query(SalesTaxRecord).join(Client).filter(
+    sales_tax = scope_client_resource(db.query(SalesTaxRecord), SalesTaxRecord, current_user).filter(
         (Client.client_name.ilike(search_term)) |
         (Client.ntn.ilike(search_term))
     ).limit(10).all()

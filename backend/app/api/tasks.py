@@ -8,7 +8,12 @@ from app.db.session import get_db
 from app.models.task import Task, TaskPriority, TaskStatus
 from app.models.client import Client
 from app.models.user import User
-from app.api.deps import get_current_active_user
+from app.api.deps import (
+    get_current_active_user,
+    get_accessible_client,
+    get_accessible_resource,
+    scope_client_resource,
+)
 
 router = APIRouter()
 
@@ -58,7 +63,7 @@ def create_task(
     current_user: User = Depends(get_current_active_user)
 ):
     if task_data.client_id:
-        client = db.query(Client).filter(Client.id == task_data.client_id).first()
+        client = get_accessible_client(db, task_data.client_id, current_user)
         if not client:
             raise HTTPException(status_code=404, detail="Client not found")
     
@@ -84,7 +89,7 @@ def get_tasks(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    query = db.query(Task)
+    query = scope_client_resource(db.query(Task), Task, current_user)
     
     if status:
         query = query.filter(Task.status == status)

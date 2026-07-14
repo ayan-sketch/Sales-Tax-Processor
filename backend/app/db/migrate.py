@@ -278,3 +278,49 @@ def run_migrations() -> None:
             logger.info("Applied banned_until migration: %s", ", ".join(added))
     else:
         logger.info("users table does not exist yet; skipping")
+
+    # --- Per-user ownership migration ---
+    # Root records own all client-linked data. Existing rows are assigned to the
+    # oldest active admin, making this migration idempotent and non-destructive.
+    inspector = inspect(engine)
+    tables = inspector.get_table_names()
+    if "users" in tables:
+        with engine.begin() as conn:
+            admin_id = conn.execute(text(
+                "SELECT id FROM users WHERE role = 'admin' AND is_active = TRUE "
+                "ORDER BY created_at ASC, id ASC LIMIT 1"
+            )).scalar()
+            ownership_tables = ("clients", "reports", "backups")
+            existing_ownership_tables = [
+                table for table in ownership_tables if table in tables
+            ]
+            if existing_ownership_tables and not admin_id:
+                raise RuntimeError(
+                    "Cannot backfill per-user ownership because no active admin exists"
+                )
+
+            for table_name in existing_ownership_tables:
+                columns = {col["name"] for col in inspect(engine).get_columns(table_name)}
+                if "owner_id" not in columns:
+                    column_type = "VARCHAR(36)" if table_name != "reports" else "TEXT"
+                    conn.execute(text(
+                        f"ALTER TABLE {table_name} ADD COLUMN owner_id {column_type}"
+                    ))
+                if table_name == "reports":
+                    conn.execute(text(
+                        "UPDATE reports SET owner_id = COALESCE(generated_by, :admin_id) "
+                        "WHERE owner_id IS NULL"
+                    ), {"admin_id": admin_id})
+                else:
+                    conn.execute(text(
+                        f"UPDATE {table_name} SET owner_id = :admin_id WHERE owner_id IS NULL"
+                    ), {"admin_id": admin_id})
+                conn.execute(text(
+                    f"CREATE INDEX IF NOT EXISTS ix_{table_name}_owner_id "
+                    f"ON {table_name} (owner_id)"
+                ))
+                if _IS_POSTGRES:
+                    conn.execute(text(
+                        f"ALTER TABLE {table_name} ALTER COLUMN owner_id SET NOT NULL"
+                    ))
+        logger.info("Per-user ownership schema is up to date")

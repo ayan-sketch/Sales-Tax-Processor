@@ -10,7 +10,7 @@ import csv
 import io
 from app.db.session import get_db
 from app.models.client import Client
-from app.api.deps import get_current_active_user
+from app.api.deps import get_current_active_user, scope_owned_clients, get_accessible_client
 from app.models.user import User
 
 router = APIRouter()
@@ -255,7 +255,7 @@ def create_client(
 
     # Check for duplicate NTN/CNIC/STRN with field-level error info
     if client_dict.get("ntn"):
-        existing = db.query(Client).filter(Client.ntn == client_dict["ntn"]).first()
+        existing = scope_owned_clients(db.query(Client), current_user).filter(Client.ntn == client_dict["ntn"]).first()
         if existing:
             raise HTTPException(
                 status_code=409,
@@ -263,7 +263,7 @@ def create_client(
             )
     
     if client_dict.get("cnic"):
-        existing = db.query(Client).filter(Client.cnic == client_dict["cnic"]).first()
+        existing = scope_owned_clients(db.query(Client), current_user).filter(Client.cnic == client_dict["cnic"]).first()
         if existing:
             raise HTTPException(
                 status_code=409,
@@ -271,14 +271,14 @@ def create_client(
             )
     
     if client_dict.get("strn"):
-        existing = db.query(Client).filter(Client.strn == client_dict["strn"]).first()
+        existing = scope_owned_clients(db.query(Client), current_user).filter(Client.strn == client_dict["strn"]).first()
         if existing:
             raise HTTPException(
                 status_code=409,
                 detail={"field": "strn", "message": "STRN already exists in the system"}
             )
     
-    client = Client(**client_dict)
+    client = Client(**client_dict, owner_id=str(current_user.id))
     db.add(client)
     db.commit()
     db.refresh(client)
@@ -293,16 +293,16 @@ def get_client_stats(
     from datetime import datetime
     from dateutil.relativedelta import relativedelta
     
-    total_clients = db.query(Client).count()
-    sales_tax_registered = db.query(Client).filter(Client.sales_tax_registered == True).count()
-    withholding_registered = db.query(Client).filter(Client.withholding_registered == True).count()
-    kpra_registered = db.query(Client).filter(Client.kpra_registered == True).count()
-    active_clients = db.query(Client).filter(Client.is_active == True).count()
+    total_clients = scope_owned_clients(db.query(Client), current_user).count()
+    sales_tax_registered = scope_owned_clients(db.query(Client), current_user).filter(Client.sales_tax_registered == True).count()
+    withholding_registered = scope_owned_clients(db.query(Client), current_user).filter(Client.withholding_registered == True).count()
+    kpra_registered = scope_owned_clients(db.query(Client), current_user).filter(Client.kpra_registered == True).count()
+    active_clients = scope_owned_clients(db.query(Client), current_user).filter(Client.is_active == True).count()
     
     # Calculate new clients this month
     now = datetime.now()
     first_day_of_month = datetime(now.year, now.month, 1)
-    new_this_month = db.query(Client).filter(Client.created_at >= first_day_of_month).count()
+    new_this_month = scope_owned_clients(db.query(Client), current_user).filter(Client.created_at >= first_day_of_month).count()
     
     return ClientStats(
         total_clients=total_clients,
@@ -333,7 +333,7 @@ def get_clients(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    query = db.query(Client)
+    query = scope_owned_clients(db.query(Client), current_user)
     query = apply_client_filters(
         query, search,
         _parse_bool(sales_tax_registered),
@@ -366,7 +366,7 @@ def export_clients_csv(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    query = db.query(Client)
+    query = scope_owned_clients(db.query(Client), current_user)
     query = apply_client_filters(
         query, search,
         _parse_bool(sales_tax_registered),
@@ -440,7 +440,7 @@ async def import_clients(
         })
 
         try:
-            client = Client(**client_data)
+            client = Client(**client_data, owner_id=str(current_user.id))
             db.add(client)
             db.flush()
             imported += 1
@@ -460,7 +460,7 @@ def get_client(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    client = db.query(Client).filter(Client.id == str(client_id)).first()
+    client = scope_owned_clients(db.query(Client), current_user).filter(Client.id == str(client_id)).first()
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
     return client
@@ -472,7 +472,7 @@ def get_client_activity(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    client = db.query(Client).filter(Client.id == str(client_id)).first()
+    client = scope_owned_clients(db.query(Client), current_user).filter(Client.id == str(client_id)).first()
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
 
@@ -515,7 +515,7 @@ def update_client(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    client = db.query(Client).filter(Client.id == str(client_id)).first()
+    client = scope_owned_clients(db.query(Client), current_user).filter(Client.id == str(client_id)).first()
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
     
@@ -523,7 +523,7 @@ def update_client(
     
     # Check for duplicates on update with field-level error info
     if "ntn" in update_data and update_data["ntn"]:
-        existing = db.query(Client).filter(
+        existing = scope_owned_clients(db.query(Client), current_user).filter(
             Client.ntn == update_data["ntn"],
             Client.id != client_id
         ).first()
@@ -534,7 +534,7 @@ def update_client(
             )
     
     if "cnic" in update_data and update_data["cnic"]:
-        existing = db.query(Client).filter(
+        existing = scope_owned_clients(db.query(Client), current_user).filter(
             Client.cnic == update_data["cnic"],
             Client.id != client_id
         ).first()
@@ -545,7 +545,7 @@ def update_client(
             )
     
     if "strn" in update_data and update_data["strn"]:
-        existing = db.query(Client).filter(
+        existing = scope_owned_clients(db.query(Client), current_user).filter(
             Client.strn == update_data["strn"],
             Client.id != client_id
         ).first()
@@ -568,7 +568,7 @@ def delete_client(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    client = db.query(Client).filter(Client.id == str(client_id)).first()
+    client = scope_owned_clients(db.query(Client), current_user).filter(Client.id == str(client_id)).first()
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
     

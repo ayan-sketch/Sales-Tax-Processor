@@ -9,7 +9,12 @@ from app.db.session import get_db
 from app.models.withholding import WithholdingRecord, WithholdingType
 from app.models.document import Document
 from app.models.client import Client
-from app.api.deps import get_current_active_user
+from app.api.deps import (
+    get_current_active_user,
+    get_accessible_client,
+    get_accessible_resource,
+    scope_client_resource,
+)
 from app.models.user import User
 
 router = APIRouter()
@@ -198,7 +203,7 @@ def create_withholding_record(
     current_user: User = Depends(get_current_active_user)
 ):
     from app.models.client import Client
-    client = db.query(Client).filter(Client.id == record_data.client_id).first()
+    client = get_accessible_client(db, record_data.client_id, current_user)
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
     
@@ -219,7 +224,7 @@ def get_withholding_records(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    query = db.query(WithholdingRecord)
+    query = scope_client_resource(db.query(WithholdingRecord), WithholdingRecord, current_user)
     
     if client_id:
         query = query.filter(WithholdingRecord.client_id == str(client_id))
@@ -268,7 +273,7 @@ def get_withholding_record(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    record = db.query(WithholdingRecord).filter(WithholdingRecord.id == record_id).first()
+    record = get_accessible_resource(db, WithholdingRecord, record_id, current_user, "Record not found")
     if not record:
         raise HTTPException(status_code=404, detail="Record not found")
     return record
@@ -280,7 +285,7 @@ def update_withholding_record(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    record = db.query(WithholdingRecord).filter(WithholdingRecord.id == record_id).first()
+    record = get_accessible_resource(db, WithholdingRecord, record_id, current_user, "Record not found")
     if not record:
         raise HTTPException(status_code=404, detail="Record not found")
     
@@ -298,7 +303,7 @@ def delete_withholding_record(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    record = db.query(WithholdingRecord).filter(WithholdingRecord.id == record_id).first()
+    record = get_accessible_resource(db, WithholdingRecord, record_id, current_user, "Record not found")
     if not record:
         raise HTTPException(status_code=404, detail="Record not found")
     
@@ -636,7 +641,7 @@ def import_withholding_statement(
         document_id = client_documents_map.get(client_id)
         if document_id:
             for record_id in record_ids:
-                rec = db.query(WithholdingRecord).filter(WithholdingRecord.id == record_id).first()
+                rec = get_accessible_resource(db, WithholdingRecord, record_id, current_user, "Record not found")
                 if rec and not rec.document_id:
                     rec.document_id = document_id
     db.commit()

@@ -12,7 +12,7 @@ from app.models.task import Task, TaskStatus
 from app.models.document import Document
 from app.models.notification import Notification
 from app.models.user import User
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, scope_owned_clients, scope_client_resource
 from pydantic import BaseModel
 from typing import Optional
 
@@ -324,7 +324,7 @@ def get_dashboard(
     )
 
     # ── Pending Tasks ──
-    db_pending_tasks = db.query(Task).filter(
+    db_pending_tasks = scope_client_resource(db.query(Task), Task, current_user).filter(
         Task.status.in_([TaskStatus.PENDING, TaskStatus.IN_PROGRESS])
     ).order_by(Task.created_at.desc()).limit(5).all()
 
@@ -338,7 +338,7 @@ def get_dashboard(
 
     # ── Recent Activities ──
     recent_activities_raw = (
-        db.query(Document)
+        scope_client_resource(db.query(Document), Document, current_user)
         .order_by(Document.upload_date.desc())
         .limit(5)
         .all()
@@ -383,7 +383,7 @@ def get_dashboard(
 
     # ── Top Clients ──
     top_clients_raw = (
-        db.query(Client)
+        scope_owned_clients(db.query(Client), current_user)
         .order_by(Client.created_at.desc())
         .limit(5)
         .all()

@@ -1,12 +1,14 @@
 import uuid
 from datetime import datetime, date
-from sqlalchemy import Column, String, Boolean, DateTime, Text, Date
+from sqlalchemy import Column, String, Boolean, DateTime, Text, Date, ForeignKey
+from sqlalchemy.orm import relationship
 from app.db.session import Base
 
 class Client(Base):
     __tablename__ = "clients"
 
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    owner_id = Column(String(36), ForeignKey("users.id", ondelete="RESTRICT"), nullable=False, index=True)
     client_name = Column(String(255), nullable=False, index=True)
     business_name = Column(String(255), nullable=True)
     cnic = Column(String(20), unique=True, nullable=True, index=True)

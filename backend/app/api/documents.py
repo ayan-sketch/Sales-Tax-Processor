@@ -19,7 +19,11 @@ from app.models.document import (
 )
 from app.models.client import Client
 from app.models.user import User
-from app.api.deps import get_current_active_user
+from app.api.deps import (
+    get_current_active_user,
+    get_accessible_client,
+    scope_client_resource,
+)
 from app.core.config import settings
 from app.services.document_classifier import classify_document, generate_standardized_filename
 from app.services.folder_service import get_folder_for_category, move_document_file, copy_document_file
@@ -257,7 +261,7 @@ async def upload_document(
     client_id = str(client_id)
 
     # Validate client
-    client = db.query(Client).filter(Client.id == client_id).first()
+    client = get_accessible_client(db, client_id, current_user)
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
 
@@ -305,7 +309,7 @@ async def upload_document(
     # is uploaded to Vercel Blob and file_path holds the blob URL; otherwise it is
     # written to the local filesystem with version-suffix collision handling.
     if blob_storage.is_enabled():
-        blob_key = f"{folder_path}/{file_name}"
+        blob_key = f"users/{client.owner_id}/{folder_path}/{file_name}"
         file_full_path = blob_storage.upload_bytes(blob_key, content, content_type=file.content_type)
     else:
         file_full_path = os.path.join(str(folder_path), file_name)
@@ -370,7 +374,7 @@ async def upload_batch(
     client_id = str(client_id)
 
     # Validate client
-    client = db.query(Client).filter(Client.id == client_id).first()
+    client = get_accessible_client(db, client_id, current_user)
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
 
@@ -424,7 +428,7 @@ async def upload_batch(
             )
 
             if blob_storage.is_enabled():
-                blob_key = f"{folder_path}/{file_name}"
+                blob_key = f"users/{client.owner_id}/{folder_path}/{file_name}"
                 file_full_path = blob_storage.upload_bytes(blob_key, content, content_type=upload_file.content_type)
             else:
                 file_full_path = os.path.join(str(folder_path), file_name)
@@ -502,7 +506,7 @@ def get_documents(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    query = db.query(Document).filter(Document.is_deleted == False)
+    query = scope_client_resource(db.query(Document), Document, current_user).filter(Document.is_deleted == False)
 
     # Client filter (supports comma-separated IDs)
     if client_id:
@@ -600,7 +604,7 @@ def get_document_stats(
     else:
         prev_month_start = first_of_month.replace(month=first_of_month.month - 1)
 
-    base_query = db.query(Document).filter(Document.is_deleted == False)
+    base_query = scope_client_resource(db.query(Document), Document, current_user).filter(Document.is_deleted == False)
     if client_id:
         base_query = base_query.filter(Document.client_id == str(client_id))
 
@@ -689,7 +693,7 @@ def search_documents(
 ):
     # Use tsvector search if available, otherwise ILIKE
     query = (
-        db.query(Document)
+        scope_client_resource(db.query(Document), Document, current_user)
         .filter(Document.is_deleted == False)
     )
 
@@ -751,7 +755,7 @@ def get_document(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
     return document_to_response(document, db)
@@ -764,7 +768,7 @@ def update_document(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
@@ -798,7 +802,7 @@ def download_document(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
@@ -836,7 +840,7 @@ def preview_document(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
@@ -884,7 +888,7 @@ def rename_document(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
@@ -918,7 +922,7 @@ def move_document(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
@@ -955,7 +959,7 @@ def copy_document(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
@@ -1010,7 +1014,7 @@ def restore_document(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
@@ -1038,7 +1042,7 @@ def batch_delete_documents(
 ):
     count = 0
     for doc_id in data.ids:
-        document = db.query(Document).filter(Document.id == doc_id).first()
+        document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == doc_id).first()
         if document:
             document.is_deleted = True
             document.deleted_at = datetime.utcnow()
@@ -1058,7 +1062,7 @@ def batch_move_documents(
 ):
     count = 0
     for doc_id in data.ids:
-        document = db.query(Document).filter(Document.id == doc_id).first()
+        document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == doc_id).first()
         if document:
             try:
                 new_folder = validate_folder_path(data.folder_path)
@@ -1083,7 +1087,7 @@ def batch_copy_documents(
 ):
     count = 0
     for doc_id in data.ids:
-        document = db.query(Document).filter(Document.id == doc_id).first()
+        document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == doc_id).first()
         if document:
             try:
                 new_folder = validate_folder_path(data.folder_path)
@@ -1178,7 +1182,7 @@ def update_notes(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
@@ -1200,7 +1204,7 @@ def get_trash_documents(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    query = db.query(Document).filter(Document.is_deleted == True)
+    query = scope_client_resource(db.query(Document), Document, current_user).filter(Document.is_deleted == True)
     total = query.count()
     total_pages = max(1, (total + limit - 1) // limit)
     documents = (
@@ -1225,7 +1229,7 @@ def empty_trash(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    documents = db.query(Document).filter(Document.is_deleted == True).all()
+    documents = scope_client_resource(db.query(Document), Document, current_user).filter(Document.is_deleted == True).all()
     count = 0
     for doc in documents:
         if doc.file_path and blob_storage.is_blob_url(doc.file_path):
@@ -1252,7 +1256,7 @@ def standardize_document_name(
     current_user: User = Depends(get_current_active_user)
 ):
     """Rename the document to {ClientName}-{CNIC}-{DocCategory}-{Year}-{Month} format."""
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
@@ -1304,7 +1308,7 @@ def save_to_desktop(
     current_user: User = Depends(get_current_active_user)
 ):
     """Copy document to user's desktop in a sales-tax folder."""
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
@@ -1340,7 +1344,7 @@ def save_to_client_folder(
     current_user: User = Depends(get_current_active_user)
 ):
     """Copy document into the correct client/year/category folder structure."""
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
@@ -1375,7 +1379,7 @@ def delete_document(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    document = db.query(Document).filter(Document.id == document_id).first()
+    document = scope_client_resource(db.query(Document), Document, current_user).filter(Document.id == document_id).first()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 

@@ -94,6 +94,39 @@ async def get_current_user(
 
     return user
 
+def is_admin(user: User) -> bool:
+    return (user.role or "").lower() == "admin"
+
+
+def scope_owned_clients(query, user: User):
+    """Restrict a Client query to the current tenant; admins retain global access."""
+    from app.models.client import Client
+    return query if is_admin(user) else query.filter(Client.owner_id == str(user.id))
+
+
+def scope_client_resource(query, model, user: User):
+    """Restrict a client-linked model query through Client.owner_id."""
+    if is_admin(user):
+        return query
+    from app.models.client import Client
+    return query.join(Client, Client.id == model.client_id).filter(Client.owner_id == str(user.id))
+
+
+def get_accessible_client(db: Session, client_id, user: User):
+    from app.models.client import Client
+    client = scope_owned_clients(db.query(Client), user).filter(Client.id == str(client_id)).first()
+    if not client:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not found")
+    return client
+
+
+def get_accessible_resource(db: Session, model, resource_id, user: User, detail: str = "Resource not found"):
+    resource = scope_client_resource(db.query(model), model, user).filter(model.id == str(resource_id)).first()
+    if not resource:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
+    return resource
+
+
 async def get_current_active_user(
     current_user: User = Depends(get_current_user)
 ) -> User:

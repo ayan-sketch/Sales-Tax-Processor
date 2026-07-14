@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 from app.db.session import get_db
 from app.models.backup import Backup, BackupStatus
-from app.api.deps import get_current_active_user
+from app.api.deps import get_current_active_user, is_admin
 from app.models.user import User
 from app.core.config import settings
 
@@ -88,7 +88,7 @@ def list_backups(
     current_user: User = Depends(get_current_active_user)
 ):
     """List all backups ordered by date descending."""
-    backups = db.query(Backup).order_by(Backup.backup_date.desc()).all()
+    backups = (db.query(Backup) if is_admin(current_user) else db.query(Backup).filter(Backup.owner_id == str(current_user.id))).order_by(Backup.backup_date.desc()).all()
     return backups
 
 
@@ -110,6 +110,7 @@ def create_backup(
 
     backup = Backup(
         id=uuid.uuid4(),
+        owner_id=str(current_user.id),
         backup_name=backup_name,
         backup_path=backup_path,
         backup_size=backup_size,
@@ -129,7 +130,7 @@ def get_backup(
     current_user: User = Depends(get_current_active_user)
 ):
     """Get backup details by ID."""
-    backup = db.query(Backup).filter(Backup.id == backup_id).first()
+    backup = (db.query(Backup) if is_admin(current_user) else db.query(Backup).filter(Backup.owner_id == str(current_user.id))).filter(Backup.id == backup_id).first()
     if not backup:
         raise HTTPException(status_code=404, detail="Backup not found")
     return backup
@@ -142,7 +143,7 @@ def restore_backup(
     current_user: User = Depends(get_current_active_user)
 ):
     """Restore system from a backup."""
-    backup = db.query(Backup).filter(Backup.id == backup_id).first()
+    backup = (db.query(Backup) if is_admin(current_user) else db.query(Backup).filter(Backup.owner_id == str(current_user.id))).filter(Backup.id == backup_id).first()
     if not backup:
         raise HTTPException(status_code=404, detail="Backup not found")
     
@@ -189,7 +190,7 @@ def delete_backup(
     current_user: User = Depends(get_current_active_user)
 ):
     """Delete a backup record and its files."""
-    backup = db.query(Backup).filter(Backup.id == backup_id).first()
+    backup = (db.query(Backup) if is_admin(current_user) else db.query(Backup).filter(Backup.owner_id == str(current_user.id))).filter(Backup.id == backup_id).first()
     if not backup:
         raise HTTPException(status_code=404, detail="Backup not found")
     
