@@ -39,6 +39,7 @@ def name_similarity(n1: str, n2: str) -> float:
 
 def resolve_client(
     db: Session,
+    owner_id: str,
     ntn: Optional[str],
     client_name: Optional[str],
     cnic: Optional[str] = None,
@@ -60,33 +61,33 @@ def resolve_client(
         would_create is True when no existing client was found and auto_create=False.
     """
     normalized_ntn = normalize_ntn(ntn)
-    
+    owned_clients = db.query(Client).filter(Client.owner_id == owner_id)
+
     # Strategy 1: Match by NTN
     if normalized_ntn:
-        client = db.query(Client).filter(Client.ntn == normalized_ntn).first()
+        client = owned_clients.filter(Client.ntn == normalized_ntn).first()
         if client:
-            return client, False
-    
+            return client, False, False
+
     # Strategy 2: Match by CNIC if no NTN match
     if cnic and not normalized_ntn:
-        # Check if any client has matching cnic
-        client = db.query(Client).filter(Client.cnic == cnic).first()
+        client = owned_clients.filter(Client.cnic == cnic).first()
         if client:
-            return client, False
+            return client, False, False
     
     # Strategy 3: Match by name (if no NTN or NTN didn't match)
     if client_name:
         norm_input = normalize_name(client_name)
         
         # Try exact name match
-        client = db.query(Client).filter(
+        client = owned_clients.filter(
             Client.client_name.ilike(client_name.strip())
         ).first()
         if client:
             return client, False, False
         
         # Try normalized match (case-insensitive)
-        clients = db.query(Client).all()
+        clients = owned_clients.all()
         best_match = None
         best_score = 0.0
         
@@ -105,6 +106,7 @@ def resolve_client(
     # Strategy 4: Auto-create client
     name = client_name or (f"Client_{normalized_ntn}" if normalized_ntn else "Unknown Client")
     new_client = Client(
+        owner_id=owner_id,
         client_name=name.strip(),
         ntn=normalized_ntn,
         cnic=cnic,
@@ -125,6 +127,7 @@ def resolve_client(
 
 def bulk_resolve_clients(
     db: Session,
+    owner_id: str,
     extracts: list,
 ) -> list:
     """
@@ -135,8 +138,9 @@ def bulk_resolve_clients(
     """
     results = []
     for extract in extracts:
-        client, created = resolve_client(
+        client, created, _ = resolve_client(
             db=db,
+            owner_id=owner_id,
             ntn=extract.ntn if hasattr(extract, 'ntn') else None,
             client_name=extract.client_name if hasattr(extract, 'client_name') else None,
         )

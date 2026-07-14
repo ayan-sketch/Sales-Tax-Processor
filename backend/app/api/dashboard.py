@@ -155,35 +155,34 @@ def get_dashboard(
     yr = int(taxYear.split("-")[0])
 
     # ── User Info ──
-    user_obj = db.query(User).first()
-    user_name = user_obj.full_name if user_obj else "User"
+    user_name = current_user.full_name or current_user.email or "User"
 
     # ── Real KPIs from DB ──
-    total_clients = db.query(func.count(Client.id)).scalar() or 0
-    total_sales_tax = db.query(func.count(SalesTaxRecord.id)).scalar() or 0
-    total_withholding = db.query(func.count(WithholdingRecord.id)).scalar() or 0
-    pending_tasks = db.query(func.count(Task.id)).filter(
+    total_clients = scope_owned_clients(db.query(func.count(Client.id)), current_user).scalar() or 0
+    total_sales_tax = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).scalar() or 0
+    total_withholding = scope_client_resource(db.query(func.count(WithholdingRecord.id)), WithholdingRecord, current_user).scalar() or 0
+    pending_tasks = scope_client_resource(db.query(func.count(Task.id)), Task, current_user).filter(
         Task.status.in_([TaskStatus.PENDING, TaskStatus.IN_PROGRESS])
     ).scalar() or 0
-    overdue_sales_tax = db.query(func.count(SalesTaxRecord.id)).filter(
+    overdue_sales_tax = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).filter(
         SalesTaxRecord.status == SalesTaxStatus.OVERDUE
     ).scalar() or 0
-    filings_this_month = db.query(func.count(SalesTaxRecord.id)).filter(
+    filings_this_month = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).filter(
         SalesTaxRecord.filing_date >= first_of_month.date()
     ).scalar() or 0
-    total_documents = db.query(func.count(Document.id)).scalar() or 0
+    total_documents = scope_client_resource(db.query(func.count(Document.id)), Document, current_user).scalar() or 0
 
     # Historical data for changes
-    last_month_clients = db.query(func.count(Client.id)).filter(
+    last_month_clients = scope_owned_clients(db.query(func.count(Client.id)), current_user).filter(
         Client.created_at < first_of_month
     ).scalar() or 0
-    last_month_sales_tax = db.query(func.count(SalesTaxRecord.id)).filter(
+    last_month_sales_tax = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).filter(
         SalesTaxRecord.created_at < first_of_month
     ).scalar() or 0
-    last_month_withholding = db.query(func.count(WithholdingRecord.id)).filter(
+    last_month_withholding = scope_client_resource(db.query(func.count(WithholdingRecord.id)), WithholdingRecord, current_user).filter(
         WithholdingRecord.created_at < first_of_month
     ).scalar() or 0
-    last_month_pending = db.query(func.count(Task.id)).filter(
+    last_month_pending = scope_client_resource(db.query(func.count(Task.id)), Task, current_user).filter(
         Task.status.in_([TaskStatus.PENDING, TaskStatus.IN_PROGRESS]),
         Task.created_at < first_of_month
     ).scalar() or 0
@@ -201,33 +200,33 @@ def get_dashboard(
     monthly_clients = []
 
     for m in range(1, 13):
-        count_sales = db.query(func.count(SalesTaxRecord.id)).filter(
+        count_sales = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).filter(
             extract("year", SalesTaxRecord.filing_date) == yr,
             extract("month", SalesTaxRecord.filing_date) == m
         ).scalar() or 0
         monthly_sales.append(count_sales)
 
-        count_withholding = db.query(func.count(WithholdingRecord.id)).filter(
+        count_withholding = scope_client_resource(db.query(func.count(WithholdingRecord.id)), WithholdingRecord, current_user).filter(
             extract("year", WithholdingRecord.payment_date) == yr,
             extract("month", WithholdingRecord.payment_date) == m
         ).scalar() or 0
         monthly_withholding.append(count_withholding)
 
-        count_tasks = db.query(func.count(Task.id)).filter(
+        count_tasks = scope_client_resource(db.query(func.count(Task.id)), Task, current_user).filter(
             Task.status.in_([TaskStatus.PENDING, TaskStatus.IN_PROGRESS]),
             extract("year", Task.created_at) == yr,
             extract("month", Task.created_at) == m
         ).scalar() or 0
         monthly_tasks.append(count_tasks)
 
-        count_overdue = db.query(func.count(SalesTaxRecord.id)).filter(
+        count_overdue = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).filter(
             SalesTaxRecord.status == SalesTaxStatus.OVERDUE,
             extract("year", SalesTaxRecord.filing_date) == yr,
             extract("month", SalesTaxRecord.filing_date) == m
         ).scalar() or 0
         monthly_overdue.append(count_overdue)
 
-        count_clients = db.query(func.count(Client.id)).filter(
+        count_clients = scope_owned_clients(db.query(func.count(Client.id)), current_user).filter(
             extract("year", Client.created_at) == yr,
             extract("month", Client.created_at) == m
         ).scalar() or 0
@@ -237,13 +236,13 @@ def get_dashboard(
     compliance_points = []
     for d in range(1, 32):
         day_date = date(now.year, now.month, d) if d <= 28 else date(now.year, now.month, min(d, 28))
-        day_sales = db.query(func.count(SalesTaxRecord.id)).filter(
+        day_sales = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).filter(
             SalesTaxRecord.filing_date == day_date
         ).scalar() or 0
-        day_withholding = db.query(func.count(WithholdingRecord.id)).filter(
+        day_withholding = scope_client_resource(db.query(func.count(WithholdingRecord.id)), WithholdingRecord, current_user).filter(
             WithholdingRecord.payment_date == day_date
         ).scalar() or 0
-        day_overdue = db.query(func.count(SalesTaxRecord.id)).filter(
+        day_overdue = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).filter(
             SalesTaxRecord.status == SalesTaxStatus.OVERDUE,
             SalesTaxRecord.filing_date == day_date
         ).scalar() or 0
@@ -256,7 +255,7 @@ def get_dashboard(
 
     # ── Compliance Score (calculated from real data) ──
     total_returns = total_sales_tax
-    timely_returns = db.query(func.count(SalesTaxRecord.id)).filter(
+    timely_returns = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).filter(
         SalesTaxRecord.status == SalesTaxStatus.FILED
     ).scalar() or 0
     ontime_pct = round((timely_returns / total_returns * 100) if total_returns > 0 else 92)
@@ -390,7 +389,7 @@ def get_dashboard(
     )
     top_clients_data = []
     for i, c in enumerate(top_clients_raw):
-        c_returns = db.query(func.count(SalesTaxRecord.id)).filter(
+        c_returns = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).filter(
             SalesTaxRecord.client_id == c.id
         ).scalar() or max(90 - i * 13, 10)
         c_score = max(98 - i * 2, 85)
@@ -423,13 +422,13 @@ def get_dashboard(
             hasEvents=True,
         ))
 
-    due_sales_tax_count = db.query(func.count(SalesTaxRecord.id)).filter(
+    due_sales_tax_count = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).filter(
         SalesTaxRecord.status == SalesTaxStatus.PENDING
     ).scalar() or 24
-    due_withholding_count = db.query(func.count(WithholdingRecord.id)).filter(
+    due_withholding_count = scope_client_resource(db.query(func.count(WithholdingRecord.id)), WithholdingRecord, current_user).filter(
         WithholdingRecord.payment_date.is_(None)
     ).scalar() or 18
-    due_quarterly_count = db.query(func.count(SalesTaxRecord.id)).filter(
+    due_quarterly_count = scope_client_resource(db.query(func.count(SalesTaxRecord.id)), SalesTaxRecord, current_user).filter(
         SalesTaxRecord.status == SalesTaxStatus.OVERDUE
     ).scalar() or 5
 

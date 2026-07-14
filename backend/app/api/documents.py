@@ -926,7 +926,7 @@ def move_document(
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
-    new_client = db.query(Client).filter(Client.id == data.client_id).first()
+    new_client = get_accessible_client(db, data.client_id, current_user)
     if not new_client:
         raise HTTPException(status_code=404, detail="Target client not found")
 
@@ -963,7 +963,7 @@ def copy_document(
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
 
-    new_client = db.query(Client).filter(Client.id == data.client_id).first()
+    new_client = get_accessible_client(db, data.client_id, current_user)
     if not new_client:
         raise HTTPException(status_code=404, detail="Target client not found")
 

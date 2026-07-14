@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from typing import Dict, Any, Optional
 from pydantic import BaseModel
 
-from app.api.deps import get_db, get_current_user
+from app.api.deps import get_db, get_current_user, get_accessible_resource
 from app.models.user import User
 from app.services.desktop_sync import get_desktop_sync_service
 
@@ -183,6 +183,8 @@ def sync_single_document(
     """
     Sync a single document to Desktop.
     """
+    from app.models.document import Document
+    get_accessible_resource(db, Document, document_id, current_user, "Document not found")
     sync_service = get_desktop_sync_service(db)
     success, message = sync_service.sync_document_to_desktop(document_id)
     
@@ -210,12 +212,7 @@ def get_document_desktop_path(
     from app.models.document import Document
     from app.models.client import Client
     
-    document = db.query(Document).filter(Document.id == document_id).first()
-    if not document:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Document not found"
-        )
+    document = get_accessible_resource(db, Document, document_id, current_user, "Document not found")
     
     # If already synced, return existing path
     if document.desktop_path:
@@ -254,6 +251,8 @@ def remove_document_from_desktop(
     """
     Remove a document from Desktop (when deleted from software).
     """
+    from app.models.document import Document
+    get_accessible_resource(db, Document, document_id, current_user, "Document not found")
     sync_service = get_desktop_sync_service(db)
     success, message = sync_service.remove_from_desktop(document_id)
     

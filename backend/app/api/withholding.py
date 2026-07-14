@@ -356,6 +356,7 @@ def import_withholding_challan(
     # Resolve or create client
     client, client_created, _ = resolve_client(
         db=db,
+        owner_id=str(current_user.id),
         ntn=extract.ntn,
         client_name=extract.client_name,
         cnic=extract.cnic,
@@ -517,6 +518,7 @@ def import_withholding_statement(
             # Resolve or create client
             client, client_created, _ = resolve_client(
                 db=db,
+                owner_id=str(current_user.id),
                 ntn=extract.ntn,
                 client_name=extract.client_name,
             )
@@ -696,6 +698,7 @@ def import_withholding_challan_bulk(
             # Resolve or create client
             client, client_created, _ = resolve_client(
                 db=db,
+                owner_id=str(current_user.id),
                 ntn=extract.ntn,
                 client_name=extract.client_name,
                 cnic=extract.cnic,
@@ -881,6 +884,7 @@ def preview_withholding_import(
                 try:
                     client, _, would_create = resolve_client(
                         db=temp_db,
+                        owner_id=str(current_user.id),
                         ntn=row.ntn,
                         client_name=row.client_name,
                         cnic=None,

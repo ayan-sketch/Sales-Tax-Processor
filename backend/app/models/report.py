@@ -16,7 +16,8 @@ class Report(Base):
     generated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     # Relationships
-    generator = relationship("User", backref="generated_reports")
+    generator = relationship("User", foreign_keys=[generated_by], backref="generated_reports")
+    owner = relationship("User", foreign_keys=[owner_id], backref="owned_reports")
 
     def __repr__(self):
         return f"<Report(id={self.id}, report_name='{self.report_name}', type='{self.report_type}')>"

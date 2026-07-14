@@ -117,7 +117,7 @@ def get_task(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    task = db.query(Task).filter(Task.id == task_id).first()
+    task = get_accessible_resource(db, Task, task_id, current_user, "Task not found")
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     return task
@@ -129,7 +129,7 @@ def update_task(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    task = db.query(Task).filter(Task.id == task_id).first()
+    task = get_accessible_resource(db, Task, task_id, current_user, "Task not found")
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     
@@ -141,7 +141,7 @@ def update_task(
             raise HTTPException(status_code=404, detail="Assigned user not found")
     
     if "client_id" in update_data and update_data["client_id"]:
-        client = db.query(Client).filter(Client.id == update_data["client_id"]).first()
+        client = get_accessible_client(db, update_data["client_id"], current_user)
         if not client:
             raise HTTPException(status_code=404, detail="Client not found")
     
@@ -162,7 +162,7 @@ def update_task_status(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    task = db.query(Task).filter(Task.id == task_id).first()
+    task = get_accessible_resource(db, Task, task_id, current_user, "Task not found")
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     
@@ -180,7 +180,7 @@ def delete_task(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    task = db.query(Task).filter(Task.id == task_id).first()
+    task = get_accessible_resource(db, Task, task_id, current_user, "Task not found")
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     
