@@ -1,0 +1,23 @@
+# IRIS Automation Configuration
+iris:
+  base_url: "https://iris.fbr.gov.pk"
+  login_url: "https://iris.fbr.gov.pk/auth/login"
+  dashboard_url: "https://iris.fbr.gov.pk/dashboard"
+  return_url: "https://iris.fbr.gov.pk/nitr"
+
+# Browser settings
+browser:
+  headless: false           # Keep visible for manual login
+  slow_mo: 300              # ms delay between actions
+  viewport_width: 1366
+  viewport_height: 768
+  storage_state: "sessions/iris_state.json"
+
+# Login detection
+login:
+  success_indicator: ".dashboard-container, .user-profile, [href*='/dashboard']"
+  timeout_minutes: 5        # Max wait time for manual login
+
+# Default Excel template paths
+excel:
+  individual: "data/individual_return.xlsx"

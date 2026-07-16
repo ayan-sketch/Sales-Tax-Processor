@@ -23,8 +23,6 @@ import { TasksPage } from './features/tasks/pages/TasksPage'
 import { ReportsPage } from './features/reports/pages/ReportsPage'
 import { SettingsPage } from './features/settings/pages/SettingsPage'
 import { BackupPage } from './features/backup/pages/BackupPage'
-import { Agentation } from 'agentation'
-
 // In dev mode, ensure a token always exists so ProtectedRoute and API interceptor never redirect away
 if (DEV_AUTH_DISABLED && !localStorage.getItem('token')) {
   localStorage.setItem('token', 'dev-token')
@@ -64,7 +62,6 @@ function App() {
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      {import.meta.env.DEV && <Agentation />}
     </>
   )
 }

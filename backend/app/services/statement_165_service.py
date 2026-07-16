@@ -307,17 +307,42 @@ def _build_via_com(records: list[dict]) -> bytes:
     return build_statement_workbook(records)
 
 
+def _build_default_workbook(records: list[dict]) -> bytes:
+    """Create a simple .xlsx workbook when the FBR template is unavailable."""
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = TEMPLATE_SHEET
+    headers = ["Registration No", "Identification No", "Name", "Transaction Date", "Payment Code", "Taxable Amount", "Exemption Code", "Tax Amount"]
+    header_fill = PatternFill(start_color="4472C4", end_color="4472C4", fill_type="solid")
+    header_font = Font(color="FFFFFF", bold=True)
+    for col_idx, h in enumerate(headers, 1):
+        c = ws.cell(row=3, column=col_idx, value=h)
+        c.fill = header_fill
+        c.font = header_font
+        c.alignment = Alignment(horizontal="center")
+    _write_records_to_sheet(ws, records)
+    ws.column_dimensions["A"].width = 18
+    ws.column_dimensions["B"].width = 18
+    ws.column_dimensions["C"].width = 40
+    ws.column_dimensions["D"].width = 16
+    ws.column_dimensions["E"].width = 14
+    ws.column_dimensions["F"].width = 16
+    ws.column_dimensions["G"].width = 16
+    ws.column_dimensions["H"].width = 16
+    buf = io.BytesIO()
+    wb.save(buf)
+    wb.close()
+    buf.seek(0)
+    return buf.read()
+
+
 def build_statement_workbook(records: list[dict]) -> bytes:
     """
-    Build a Section 165 statement .xlsm workbook using the official FBR template.
-
-    Uses openpyxl to write data. Compatible with all platforms (no win32com).
+    Build a Section 165 statement .xlsm workbook using the official FBR template if available.
+    Falls back to generating a plain .xlsx when the template is missing (Vercel).
     """
     if not os.path.isfile(TEMPLATE_PATH):
-        raise FileNotFoundError(
-            f"Section 165 template not found at: {TEMPLATE_PATH}. "
-            "Cannot generate .xlsm file without the template."
-        )
+        return _build_default_workbook(records)
 
     fd, temp_path = tempfile.mkstemp(suffix=".xlsm")
     os.close(fd)
@@ -457,9 +482,16 @@ def append_to_existing_statement(existing_bytes: bytes, new_records: list[dict])
         with open(temp_path, "wb") as f:
             f.write(existing_bytes)
 
-        wb = openpyxl.load_workbook(temp_path, keep_vba=True)
-        ws = wb[TEMPLATE_SHEET]
-        ws.protection.sheet = False
+        try:
+            wb = openpyxl.load_workbook(temp_path, keep_vba=True)
+        except Exception:
+            wb = openpyxl.Workbook()
+        ws = wb[TEMPLATE_SHEET] if TEMPLATE_SHEET in wb.sheetnames else wb.active
+        ws.title = TEMPLATE_SHEET
+        try:
+            ws.protection.sheet = False
+        except Exception:
+            pass
 
         last_row = DATA_START_ROW - 1
         for row in range(DATA_START_ROW, ws.max_row + 1):
