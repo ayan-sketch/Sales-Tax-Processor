@@ -9,6 +9,7 @@ interface BulkUploadDialogProps {
   isOpen: boolean
   onClose: () => void
   defaultClientId?: string
+  defaultFiles?: File[]
 }
 
 interface QueuedFile {
@@ -18,8 +19,13 @@ interface QueuedFile {
   error?: string
 }
 
-export function BulkUploadDialog({ isOpen, onClose, defaultClientId }: BulkUploadDialogProps) {
-  const [files, setFiles] = useState<QueuedFile[]>([])
+export function BulkUploadDialog({ isOpen, onClose, defaultClientId, defaultFiles }: BulkUploadDialogProps) {
+  const [files, setFiles] = useState<QueuedFile[]>(() => {
+    if (defaultFiles?.length) {
+      return defaultFiles.map((f) => ({ file: f, status: 'pending' as const, progress: 0 }))
+    }
+    return []
+  })
   const [clientId] = useState(defaultClientId || '')
   const [docCategory, setDocCategory] = useState<DocumentCategory | ''>('')
   const [taxYear, setTaxYear] = useState<number>(new Date().getFullYear())

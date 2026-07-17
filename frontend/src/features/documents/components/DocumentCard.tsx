@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { FileText, Sheet, Image, File, MoreVertical, Download, Trash2, Pencil, FolderInput, Copy, FolderOpen, Monitor, Verified } from 'lucide-react'
+import { FileText, Sheet, Image, File, MoreVertical, Download, Trash2, Pencil, FolderInput, Copy, FolderOpen, Monitor, Verified, Eye } from 'lucide-react'
 import { format } from 'date-fns'
 import type { Document, DocumentCategory, FilingStatus } from '../types/document'
 import { DOCUMENT_CATEGORY_OPTIONS, FILING_STATUS_OPTIONS, formatFileSize, getFileTypeBgColor } from '../types/document'
@@ -156,10 +156,19 @@ export function DocumentCard({ document: doc, onPreview, onDownload, onRename, o
           {getStatusBadge(doc.filing_status)}
         </div>
 
-        {/* Bottom row: size + date */}
+        {/* Bottom row: size + date + actions */}
         <div className="flex items-center justify-between text-xs text-slate-400 pt-3 border-t border-slate-100">
           <span>{formatFileSize(doc.file_size)}</span>
-          <span>{format(new Date(doc.upload_date), 'dd MMM yyyy')}</span>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={(e) => { e.stopPropagation(); onPreview?.(doc) }}
+              className="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-primary-600 transition-colors"
+              title="Preview"
+            >
+              <Eye className="h-3.5 w-3.5" />
+            </button>
+            <span>{format(new Date(doc.upload_date), 'dd MMM yyyy')}</span>
+          </div>
         </div>
       </div>
     </div>

@@ -200,6 +200,7 @@ def create_withholding_record(
     db.refresh(record)
     return record
 
+@router.get("", response_model=WithholdingListResponse)
 @router.get("/", response_model=WithholdingListResponse)
 def get_withholding_records(
     page: int = Query(1, ge=1),

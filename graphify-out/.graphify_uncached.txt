@@ -50,6 +50,7 @@ C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\backend
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\backend\app\services\statement_parser.py
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\backend\app\services\super_parser.py
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\backend\check_login.py
+C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\backend\fix_admin_password.py
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\backend\reset_db.py
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\convert_pdfs.py
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\database\init\01-init.sql
@@ -61,8 +62,6 @@ C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\databas
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\database\migrations\env.py
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\database\schema\01-full-schema.sql
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\database\seeds\01-seed-data.sql
-C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\frontend\package.json
-C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\frontend\plugins\obfuscator.ts
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\frontend\src\App.tsx
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\frontend\src\components\auth\AdminRoute.tsx
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\frontend\src\components\auth\ProtectedRoute.tsx
@@ -215,7 +214,7 @@ C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\iris-au
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\iris-automation\src\returns\base.py
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\iris-automation\src\returns\individual.py
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\iris-automation\src\selectors.py
-C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\package.json
+C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\opencode.json
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\scripts\backup.sh
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\scripts\start-prod.sh
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\start-dev.js
@@ -226,6 +225,8 @@ C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\.od-ski
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\.od-skills\web-prototype-71992a9236\example.html
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\.od-skills\web-prototype-71992a9236\references\checklist.md
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\.od-skills\web-prototype-71992a9236\references\layouts.md
+C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\.opencode\agents\deepseek-system.md
+C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\.opencode\agents\template.md
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\LICENSE.txt
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\backend\requirements.txt
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\docker-compose.yml
@@ -234,14 +235,6 @@ C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\fronten
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\iris-automation\config.yaml
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\iris-automation\requirements.txt
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\requirements.txt
-C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\PDF for Extraction\1100146516.pdf
-C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\PDF for Extraction\1101555722.pdf
-C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\PDF for Extraction\1101742189.pdf
-C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\PDF for Extraction\1102714461.pdf
-C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\PDF for Extraction\1103594301.pdf
-C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\PDF for Extraction\1104564040.pdf
-C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\PDF for Extraction\1104844581.pdf
-C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\PDF for Extraction\198581566.pdf
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\PDF for Extraction\IT2025090401011099865 (1).pdf
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\PDF for Extraction\IT2025093001011810449.pdf
 C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\PDF for Extraction\IT2025102901011764066.pdf

@@ -13,3 +13,13 @@ backups/
 *.db
 *.pyc
 .credentials/
+# Cloudflare tunnel (local only, not pushed)
+cloudflared.exe
+cloudflare/
+cloudflare-tunnel.bat
+
+# Claude Code worktrees
+.claude/worktrees/
+
+# Migration scripts (one-time use)
+backend/migrate_to_year_level.py

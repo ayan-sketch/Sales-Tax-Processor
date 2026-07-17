@@ -46,8 +46,16 @@ export function DocumentPreviewModal({ document: doc, isOpen, onClose, documents
     setPdfBlobUrl(null)
 
     if (doc.file_type === 'PDF') {
-      documentService.getPreviewBlobUrl(doc.id)
-        .then((url) => {
+      const token = localStorage.getItem('token')
+      fetch(`/api/v1/documents/${doc.id}/preview`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load PDF')
+          return res.blob()
+        })
+        .then((blob) => {
+          const url = URL.createObjectURL(blob)
           pdfBlobUrlRef.current = url
           setPdfBlobUrl(url)
           setLoading(false)
@@ -314,14 +322,25 @@ export function DocumentPreviewModal({ document: doc, isOpen, onClose, documents
 
             {/* PDF Preview */}
             {!loading && !error && pdfBlobUrl && doc.file_type === 'PDF' && (
-              <div className="h-full w-full p-4" style={{ zoom: `${zoom}%` }}>
-                <embed
-                  src={pdfBlobUrl}
-                  type="application/pdf"
-                  className="w-full h-full rounded-lg border border-slate-200 bg-white shadow-sm"
-                  title="Document Preview"
-                />
-              </div>
+              <object
+                data={pdfBlobUrl}
+                type="application/pdf"
+                className="w-full h-full rounded-lg border border-slate-200 bg-white"
+              >
+                <div className="h-full flex items-center justify-center">
+                  <div className="text-center">
+                    <FileText className="h-16 w-16 text-slate-300 mx-auto mb-4" />
+                    <p className="text-sm text-slate-600 mb-2">PDF preview not available</p>
+                    <button
+                      onClick={handleDownload}
+                      className="mt-2 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg"
+                    >
+                      <Download className="h-4 w-4" />
+                      Download
+                    </button>
+                  </div>
+                </div>
+              </object>
             )}
 
             {/* Excel Preview */}

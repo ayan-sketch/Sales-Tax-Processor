@@ -13,14 +13,40 @@ import { RenameDialog } from '../components/RenameDialog'
 import { useDocumentStore } from '../stores/useDocumentStore'
 import { useFilterStore } from '../stores/useFilterStore'
 import { useDocumentKeyboardShortcuts } from '../hooks/useDocumentKeyboardShortcuts'
-import { useDocuments, useRenameDocument, useMoveDocument, useCopyDocument, useBatchDeleteDocuments, useBatchMoveDocuments, useBatchCopyDocuments } from '../hooks/useDocuments'
+import { useDocuments, useRenameDocument, useMoveDocument, useCopyDocument, useBatchDeleteDocuments, useBatchMoveDocuments, useBatchCopyDocuments, useBatchUpload } from '../hooks/useDocuments'
 import { documentService } from '../services/documentService'
+import { apiClient } from '../../../services/apiClient'
 import { useToastStore } from '../../../stores/useToastStore'
 import type { Document } from '../types/document'
+
+const MONTH_NAME_TO_NUM: Record<string, number> = {
+  january: 1, february: 2, march: 3, april: 4, may: 5, june: 6,
+  july: 7, august: 8, september: 9, october: 10, november: 11, december: 12,
+}
+
+const CATEGORY_MAP: Record<string, string> = {
+  Sales_Tax: 'Sales Tax Return',
+  '236H': '236H',
+  '153': '153',
+  '165': '165',
+  KPRA: 'KPRA',
+  Income_Tax: 'Income Tax Return',
+  Working_Files: 'Working File',
+  Notices: 'Notice',
+}
+
+function parseFolderPath(path: string) {
+  const parts = path.replace(/\\/g, '/').split('/')
+  const year = parseInt(parts[2], 10)
+  const month = MONTH_NAME_TO_NUM[parts[3]?.toLowerCase()]
+  const category = CATEGORY_MAP[parts[4]] || parts[4]
+  return { year, month, category }
+}
 
 export function DocumentsPage() {
   const [uploadOpen, setUploadOpen] = useState(false)
   const [previewDoc, setPreviewDoc] = useState<Document | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [renameDialog, setRenameDialog] = useState<{ open: boolean; doc: Document | null }>({ open: false, doc: null })
   const [moveDialog, setMoveDialog] = useState<{ open: boolean; doc: Document | null; batch: boolean }>({ open: false, doc: null, batch: false })
@@ -39,20 +65,6 @@ export function DocumentsPage() {
   const batchCopyMutation = useBatchCopyDocuments()
   const getSelectedIds = useDocumentStore((s) => s.getSelectedIds)
   const addToast = useToastStore((s) => s.addToast)
-
-  useDocumentKeyboardShortcuts({
-    onUpload: () => setUploadOpen(true),
-    onSearchFocus: () => searchRef.current?.focus(),
-    onDeleteSelected: () => {
-      const ids = getSelectedIds()
-      if (ids.length > 0 && window.confirm(`Delete ${ids.length} selected document(s)?`)) {
-        batchDeleteMutation.mutate(ids, {
-          onSuccess: () => addToast(`Deleted ${ids.length} document(s)`, 'success'),
-          onError: () => addToast('Failed to delete documents', 'error'),
-        })
-      }
-    },
-  })
 
   const handlePreview = useCallback((doc: Document) => {
     setPreviewDoc(doc)
@@ -183,6 +195,63 @@ export function DocumentsPage() {
     }
   }, [batchDeleteMutation, addToast])
 
+  const batchUpload = useBatchUpload()
+
+  const handleUploadClick = useCallback(() => {
+    if (folderPath) {
+      fileInputRef.current?.click()
+    } else {
+      setUploadOpen(true)
+    }
+  }, [folderPath])
+
+  const handleFileSelect = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files?.length || !folderPath) return
+
+    try {
+      const res = await apiClient.get<{ success: boolean; client_id: string; client_name: string }>(
+        '/folders/resolve-client',
+        { params: { path: folderPath } }
+      )
+      if (!res.success) return
+
+      const meta = parseFolderPath(folderPath)
+      await batchUpload.mutateAsync({
+        files: Array.from(files),
+        clientId: res.client_id,
+        options: {
+          doc_category: meta.category || undefined,
+          tax_year: isNaN(meta.year) ? undefined : meta.year,
+          tax_month: meta.month || undefined,
+        },
+      })
+      addToast(`Uploaded ${files.length} file(s) to ${res.client_name}`, 'success')
+    } catch {
+      addToast('Failed to upload files', 'error')
+    } finally {
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+  }, [folderPath, batchUpload, addToast])
+
+  const handleUploadClose = useCallback(() => {
+    setUploadOpen(false)
+  }, [])
+
+  useDocumentKeyboardShortcuts({
+    onUpload: handleUploadClick,
+    onSearchFocus: () => searchRef.current?.focus(),
+    onDeleteSelected: () => {
+      const ids = getSelectedIds()
+      if (ids.length > 0 && window.confirm(`Delete ${ids.length} selected document(s)?`)) {
+        batchDeleteMutation.mutate(ids, {
+          onSuccess: () => addToast(`Deleted ${ids.length} document(s)`, 'success'),
+          onError: () => addToast('Failed to delete documents', 'error'),
+        })
+      }
+    },
+  })
+
   const handleDownload = useCallback((doc: Document) => {
     documentService.downloadDocument(doc.id)
   }, [])
@@ -257,7 +326,15 @@ export function DocumentsPage() {
             )}
 
             {/* Toolbar */}
-            <DocumentToolbar onUpload={() => setUploadOpen(true)} />
+            <DocumentToolbar onUpload={handleUploadClick} />
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept=".pdf,.xlsx,.xls"
+              className="hidden"
+              onChange={handleFileSelect}
+            />
 
             {/* Action bar */}
             <DocumentActionBar onMoveSelected={handleBatchMove} onCopySelected={handleBatchCopy} />
@@ -275,7 +352,7 @@ export function DocumentsPage() {
       {/* Dialogs */}
       <BulkUploadDialog
         isOpen={uploadOpen}
-        onClose={() => setUploadOpen(false)}
+        onClose={handleUploadClose}
       />
 
       <RenameDialog

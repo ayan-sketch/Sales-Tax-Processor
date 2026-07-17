@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from app.api import auth, clients, sales_tax, withholding, documents, tasks, reports, search, settings, notifications, dashboard, backup, folders, compliance, sync, statement_165, admin_approval
+from app.api import auth, clients, sales_tax, withholding, documents, tasks, reports, search, settings, notifications, dashboard, backup, folders, compliance, sync, statement_165, admin_approval, user_folders, user_documents
 from app.core.config import settings as app_settings
 from app.db.session import engine, Base
 from app.db.migrate import run_migrations
-from app.models import user, client, sales_tax as sales_tax_model, withholding as withholding_model, document, task, report, backup as backup_model, setting, notification as notification_model, statement_165 as statement_165_model
+from app.models import user, client, sales_tax as sales_tax_model, withholding as withholding_model, document, task, report, backup as backup_model, setting, notification as notification_model, statement_165 as statement_165_model, folder, user_document
 
 
 def cleanup_inactive_users():
@@ -128,6 +128,8 @@ app.include_router(backup.router, prefix="/api/v1/backups", tags=["backups"])
 app.include_router(sync.router, prefix="/api/v1/sync", tags=["sync"])
 app.include_router(statement_165.router, prefix="/api/v1/withholding", tags=["statement-165"])
 app.include_router(admin_approval.router, prefix="/api/v1", tags=["admin-approval"])
+app.include_router(user_folders.router, prefix="/api/v1/user/folders", tags=["user-folders"])
+app.include_router(user_documents.router, prefix="/api/v1/user/documents", tags=["user-documents"])
 
 @app.get("/health")
 async def health_check():

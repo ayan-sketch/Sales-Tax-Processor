@@ -143,6 +143,7 @@ def create_sales_tax_record(
     db.refresh(record)
     return record
 
+@router.get("", response_model=SalesTaxListResponse)
 @router.get("/", response_model=SalesTaxListResponse)
 def get_sales_tax_records(
     page: int = Query(1, ge=1),

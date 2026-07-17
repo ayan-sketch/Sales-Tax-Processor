@@ -21,6 +21,7 @@ class SearchResult(BaseModel):
     tasks: List[dict] = []
     sales_tax: List[dict] = []
 
+@router.get("", response_model=SearchResult)
 @router.get("/", response_model=SearchResult)
 def global_search(
     q: str = Query(..., min_length=1),

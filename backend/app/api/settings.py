@@ -107,6 +107,7 @@ def update_storage_path(
 
 # --------------- Generic CRUD Settings (must come AFTER specific routes) ---------------
 
+@router.get("", response_model=list[SettingResponse])
 @router.get("/", response_model=list[SettingResponse])
 def get_settings(
     db: Session = Depends(get_db),

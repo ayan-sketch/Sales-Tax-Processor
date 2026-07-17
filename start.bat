@@ -107,11 +107,28 @@ echo Opening application in browser...
 timeout /t 3 /nobreak > nul
 start "" http://localhost:5173
 
+REM ============================================
+REM Step 7: Start Cloudflare Tunnel (optional)
+REM ============================================
+set "CLOUDFLARED=%ROOT_DIR%\cloudflared.exe"
+if exist "%CLOUDFLARED%" (
+    echo Starting Cloudflare Tunnel for public access...
+    cd /d "%ROOT_DIR%"
+    start "Cloudflare Tunnel" cmd /c "title Cloudflare Tunnel && ""%CLOUDFLARED%"" tunnel --url http://localhost:5173 --no-autoupdate"
+    echo [OK] Cloudflare tunnel starting...
+    echo.
+    timeout /t 5 /nobreak > nul
+) else (
+    echo [SKIP] cloudflared.exe not found. Download from https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/
+)
+echo.
+
 echo ============================================
-echo  Both servers are starting up!
+echo  All services are starting up!
 echo  Backend:  http://localhost:8000
 echo  Frontend: http://localhost:5173
 echo  API docs: http://localhost:8000/docs
+echo  Public:   Check Cloudflare Tunnel window for URL
 echo ============================================
 echo.
 echo Close this window to stop the servers (close each server window separately).

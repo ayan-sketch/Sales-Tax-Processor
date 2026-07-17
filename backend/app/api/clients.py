@@ -149,8 +149,14 @@ class ClientResponse(BaseModel):
     registration_date: Optional[date] = None
     tax_period: Optional[str] = None
     fbr_office: Optional[str] = None
+    sales_tax_material_status: str = 'NIL'
+    withholding_236_applied: bool = False
+    withholding_236_prepared_by_us: bool = False
+    withholding_153_applicable: bool = False
+    withholding_153_prepared_by_us: bool = False
     is_active: bool = True
     created_at: datetime
+    updated_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True
@@ -318,6 +324,7 @@ def _parse_bool(val: Optional[str]) -> Optional[bool]:
         return None
     return val.lower() in ("true", "1", "yes")
 
+@router.get("", response_model=ClientListResponse)
 @router.get("/", response_model=ClientListResponse)
 def get_clients(
     page: int = Query(1, ge=1),

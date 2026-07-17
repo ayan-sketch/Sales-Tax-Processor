@@ -9,6 +9,8 @@ from app.models.backup import Backup
 from app.models.setting import Setting
 from app.models.notification import Notification
 from app.models.statement_165 import Statement165Entry, Statement165Session
+from app.models.folder import Folder
+from app.models.user_document import UserDocument
 
 __all__ = [
     "User",
@@ -23,4 +25,6 @@ __all__ = [
     "Notification",
     "Statement165Entry",
     "Statement165Session",
+    "Folder",
+    "UserDocument",
 ]

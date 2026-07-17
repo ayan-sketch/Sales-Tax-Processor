@@ -197,7 +197,7 @@ def compute_checksum(content: bytes) -> str:
 
 def log_activity(
     db: Session,
-    document_id: UUID,
+    document_id: str,
     activity_type: DocumentActivityType,
     user_id: Optional[UUID] = None,
     metadata: Optional[dict] = None,
@@ -299,6 +299,7 @@ async def upload_document(
         client_name=client.client_name,
         category=classification.category.value,
         tax_year=final_year,
+        tax_month=final_month,
     )
 
     # Persist the file. When Blob storage is configured (e.g. on Vercel) the file
@@ -421,6 +422,7 @@ async def upload_batch(
                 client_name=client.client_name,
                 category=classification.category.value,
                 tax_year=final_year,
+                tax_month=final_month,
             )
 
             if blob_storage.is_enabled():
@@ -484,6 +486,7 @@ async def upload_batch(
 # List / Read Endpoints
 # ============================================================================
 
+@router.get("", response_model=DocumentListResponse)
 @router.get("/", response_model=DocumentListResponse)
 def get_documents(
     page: int = Query(1, ge=1),
@@ -747,7 +750,7 @@ def search_documents(
 
 @router.get("/{document_id}")
 def get_document(
-    document_id: UUID,
+    document_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
@@ -759,7 +762,7 @@ def get_document(
 
 @router.patch("/{document_id}")
 def update_document(
-    document_id: UUID,
+    document_id: str,
     data: dict,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -794,7 +797,7 @@ def update_document(
 
 @router.get("/{document_id}/download")
 def download_document(
-    document_id: UUID,
+    document_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
@@ -832,7 +835,7 @@ def download_document(
 
 @router.get("/{document_id}/preview")
 def preview_document(
-    document_id: UUID,
+    document_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
@@ -879,7 +882,7 @@ def preview_document(
 
 @router.put("/{document_id}/rename")
 def rename_document(
-    document_id: UUID,
+    document_id: str,
     data: RenameRequest,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -913,7 +916,7 @@ def rename_document(
 
 @router.post("/{document_id}/move")
 def move_document(
-    document_id: UUID,
+    document_id: str,
     data: MoveRequest,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -950,7 +953,7 @@ def move_document(
 
 @router.post("/{document_id}/copy")
 def copy_document(
-    document_id: UUID,
+    document_id: str,
     data: CopyRequest,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -1006,7 +1009,7 @@ def copy_document(
 
 @router.post("/{document_id}/restore")
 def restore_document(
-    document_id: UUID,
+    document_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
@@ -1123,7 +1126,7 @@ def batch_copy_documents(
 
 @router.get("/{document_id}/activity")
 def get_activity(
-    document_id: UUID,
+    document_id: str,
     limit: int = Query(20, ge=1, le=100),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -1156,7 +1159,7 @@ def get_activity(
 
 @router.post("/{document_id}/activity")
 def log_document_activity(
-    document_id: UUID,
+    document_id: str,
     data: ActivityRequest,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -1173,7 +1176,7 @@ def log_document_activity(
 
 @router.patch("/{document_id}/notes")
 def update_notes(
-    document_id: UUID,
+    document_id: str,
     data: NotesRequest,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -1247,7 +1250,7 @@ from pathlib import Path as PathLib
 
 @router.post("/{document_id}/standardize-name")
 def standardize_document_name(
-    document_id: UUID,
+    document_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
@@ -1299,7 +1302,7 @@ def standardize_document_name(
 
 @router.post("/{document_id}/save-to-desktop")
 def save_to_desktop(
-    document_id: UUID,
+    document_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
@@ -1335,7 +1338,7 @@ def save_to_desktop(
 
 @router.post("/{document_id}/save-to-client-folder")
 def save_to_client_folder(
-    document_id: UUID,
+    document_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
@@ -1351,6 +1354,7 @@ def save_to_client_folder(
         client_name=document.client_name or "Unknown",
         category=document.doc_category.value if document.doc_category else "Other",
         tax_year=document.tax_year,
+        tax_month=document.tax_month,
     )
 
     from app.services.folder_service import copy_document_file as copy_file
@@ -1371,7 +1375,7 @@ def save_to_client_folder(
 
 @router.delete("/{document_id}")
 def delete_document(
-    document_id: UUID,
+    document_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):

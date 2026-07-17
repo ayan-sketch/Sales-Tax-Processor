@@ -82,6 +82,7 @@ def perform_backup(backup_name: str) -> tuple[str, int, BackupStatus]:
         raise e
 
 
+@router.get("", response_model=List[BackupResponse])
 @router.get("/", response_model=List[BackupResponse])
 def list_backups(
     db: Session = Depends(get_db),
@@ -92,6 +93,7 @@ def list_backups(
     return backups
 
 
+@router.post("", response_model=BackupResponse, status_code=status.HTTP_201_CREATED)
 @router.post("/", response_model=BackupResponse, status_code=status.HTTP_201_CREATED)
 def create_backup(
     db: Session = Depends(get_db),

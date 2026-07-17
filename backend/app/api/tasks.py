@@ -73,6 +73,7 @@ def create_task(
     db.refresh(task)
     return task
 
+@router.get("", response_model=TaskListResponse)
 @router.get("/", response_model=TaskListResponse)
 def get_tasks(
     page: int = Query(1, ge=1),

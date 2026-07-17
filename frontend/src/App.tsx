@@ -20,6 +20,7 @@ import { AdminDashboard } from './pages/Admin/AdminDashboard'
 import { UserManagement } from './pages/Admin/UserManagement'
 import { Whts165Page } from './features/documents/pages/Whts165Page'
 import { TasksPage } from './features/tasks/pages/TasksPage'
+import { UserDocumentsPage } from './features/user-documents/pages/UserDocumentsPage'
 import { ReportsPage } from './features/reports/pages/ReportsPage'
 import { SettingsPage } from './features/settings/pages/SettingsPage'
 import { BackupPage } from './features/backup/pages/BackupPage'
@@ -53,6 +54,7 @@ function App() {
           <Route path="/withholding" element={<WithholdingPage />} />
           <Route path="/documents" element={<DocumentsPage />} />
           <Route path="/document" element={<Navigate to="/documents" replace />} />
+          <Route path="/my-documents" element={<UserDocumentsPage />} />
           <Route path="/compliance" element={<ComplianceViewPage />} />
           <Route path="/whts-165" element={<Whts165Page />} />
           <Route path="/tasks" element={<TasksPage />} />

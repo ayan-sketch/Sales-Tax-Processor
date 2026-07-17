@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { FileText, Sheet, Image, File, Download, Trash2, MoreHorizontal, Pencil, FolderInput, Copy, FolderOpen, Monitor, Verified } from 'lucide-react'
+import { FileText, Sheet, Image, File, Download, Trash2, MoreHorizontal, Pencil, FolderInput, Copy, FolderOpen, Monitor, Verified, Eye } from 'lucide-react'
 import { format } from 'date-fns'
 import { useDocuments, useDeleteDocument } from '../hooks/useDocuments'
 import { useDocumentStore } from '../stores/useDocumentStore'
@@ -212,6 +212,13 @@ export function DocumentListView({ onPreview, onRename, onMove, onCopy, onDelete
 
             {/* Actions */}
             <div className="flex items-center gap-1 justify-end">
+              <button
+                onClick={(e) => { e.stopPropagation(); onPreview?.(doc) }}
+                className="p-1.5 rounded-md hover:bg-slate-100 text-slate-400 hover:text-primary-600 opacity-0 group-hover:opacity-100"
+                title="Preview"
+              >
+                <Eye className="h-3.5 w-3.5" />
+              </button>
               <button
                 onClick={(e) => handleDownload(doc, e)}
                 className="p-1.5 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-600 opacity-0 group-hover:opacity-100"
