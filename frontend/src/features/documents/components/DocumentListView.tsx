@@ -4,7 +4,7 @@ import { format } from 'date-fns'
 import { useDocuments, useDeleteDocument } from '../hooks/useDocuments'
 import { useDocumentStore } from '../stores/useDocumentStore'
 import { documentService } from '../services/documentService'
-import { formatFileSize } from '../types/document'
+import { formatFileSize, MONTHS } from '../types/document'
 import type { Document, DocumentCategory, FilingStatus } from '../types/document'
 import { DOCUMENT_CATEGORY_OPTIONS, FILING_STATUS_OPTIONS } from '../types/document'
 import { FileX } from 'lucide-react'
@@ -134,7 +134,7 @@ export function DocumentListView({ onPreview, onRename, onMove, onCopy, onDelete
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" ref={menuRef}>
       {/* Table header */}
-      <div className="grid grid-cols-[32px_1fr_160px_140px_100px_100px_120px_100px] gap-3 items-center px-4 py-3 bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-600 uppercase tracking-wider">
+      <div className="grid grid-cols-[32px_1fr_140px_100px_80px_100px_100px_120px_100px] gap-3 items-center px-4 py-3 bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-600 uppercase tracking-wider">
         <div>
           <input
             type="checkbox"
@@ -146,6 +146,7 @@ export function DocumentListView({ onPreview, onRename, onMove, onCopy, onDelete
         <div>File Name</div>
         <div>Client</div>
         <div>Category</div>
+        <div>Month</div>
         <div>Status</div>
         <div>Size</div>
         <div>Date</div>
@@ -157,9 +158,9 @@ export function DocumentListView({ onPreview, onRename, onMove, onCopy, onDelete
         {documents.map((doc) => (
           <div
             key={doc.id}
-            className="group grid grid-cols-[32px_1fr_160px_140px_100px_100px_120px_100px] gap-3 items-center px-4 py-2.5 cursor-pointer transition-colors
-              ${selectedIds.has(doc.id) ? 'bg-primary-50' : 'hover:bg-slate-50'}
-            "
+            className={`group grid grid-cols-[32px_1fr_140px_100px_80px_100px_100px_120px_100px] gap-3 items-center px-4 py-2.5 cursor-pointer transition-colors ${
+              selectedIds.has(doc.id) ? 'bg-primary-50' : 'hover:bg-slate-50'
+            }`}
             onClick={() => toggleSelection(doc.id)}
           >
             {/* Checkbox */}
@@ -193,6 +194,11 @@ export function DocumentListView({ onPreview, onRename, onMove, onCopy, onDelete
             {/* Category */}
             <div>
               <CategoryBadge category={doc.doc_category} />
+            </div>
+
+            {/* Month */}
+            <div className="text-xs text-slate-600">
+              {doc.tax_month ? (MONTHS[doc.tax_month - 1]?.label.slice(0, 3) || '—') : '—'}
             </div>
 
             {/* Status */}

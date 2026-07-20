@@ -3,6 +3,7 @@ import { Shield, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle2 } from '
 import { Section165Icon } from '../../statement165/components/Section165Icon'
 import { useComplianceStatus, useMissingDocuments } from '../hooks/useDocuments'
 import { ComplianceSummary } from '../components/ComplianceSummary'
+import { useClients } from '../../clients/hooks/useClients'
 import { MONTHS } from '../types/document'
 import type { DocumentCategory } from '../types/document'
 
@@ -40,6 +41,10 @@ export function ComplianceViewPage() {
     client_id: selectedClientId || undefined,
   })
 
+  // Load clients for the dropdown
+  const { data: clientsData } = useClients({ limit: 1000, is_active: true, sort_by: 'client_name', sort_order: 'asc' })
+  const clients = clientsData?.data || []
+
   const currentYear = new Date().getFullYear()
   const yearOptions = Array.from({ length: 6 }, (_, i) => currentYear - 3 + i)
 
@@ -72,6 +77,9 @@ export function ComplianceViewPage() {
               className="px-3 py-2 rounded-lg border border-slate-300 text-sm bg-white focus:border-primary-500 focus:ring-1 focus:ring-primary-500 min-w-[200px]"
             >
               <option value="">All Clients</option>
+              {clients.map((c) => (
+                <option key={c.id} value={c.id}>{c.client_name}</option>
+              ))}
             </select>
           </div>
           <div className="flex items-center gap-2">

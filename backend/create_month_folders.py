@@ -1,6 +1,10 @@
+"""Create month folder structures for all active clients.
+Run this from the backend/ directory."""
 import sys, os
-sys.path.insert(0, r'C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\backend')
-os.chdir(r'C:\Users\Adil Gulzar Malik\Desktop\Tax Software GITHUB\sale-tax-software\backend')
+# This script must be run from the backend/ directory
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)
+sys.path.insert(0, script_dir)
 
 from app.db.session import SessionLocal
 from app.models.client import Client

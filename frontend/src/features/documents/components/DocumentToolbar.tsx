@@ -6,6 +6,7 @@ import type { SortField, DocumentType } from '../types/document'
 import {
   DOCUMENT_CATEGORY_OPTIONS,
   FILING_STATUS_OPTIONS,
+  MONTHS,
 } from '../types/document'
 
 const SORT_OPTIONS: { value: SortField; label: string }[] = [
@@ -198,6 +199,7 @@ function FilterPanel() {
   const {
     docCategories, toggleDocCategory,
     taxYear, setTaxYear,
+    taxMonths, toggleTaxMonth,
     filingStatus, setFilingStatus,
     fileType, setFileType,
     isMissing, setIsMissing,
@@ -248,6 +250,34 @@ function FilterPanel() {
             <option key={y} value={y}>{y}</option>
           ))}
         </select>
+      </div>
+
+      {/* Tax Month */}
+      <div>
+        <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-2">
+          Tax Month
+        </label>
+        <div className="grid grid-cols-2 gap-x-2 gap-y-1 max-h-48 overflow-y-auto">
+          {MONTHS.map((m) => {
+            const checked = taxMonths.includes(m.value)
+            return (
+              <label
+                key={m.value}
+                className="flex items-center gap-2 cursor-pointer group text-sm"
+              >
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={() => toggleTaxMonth(m.value)}
+                  className="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+                />
+                <span className={`text-sm ${checked ? 'text-primary-700 font-medium' : 'text-slate-600 group-hover:text-slate-900'}`}>
+                  {m.label.slice(0, 3)}
+                </span>
+              </label>
+            )
+          })}
+        </div>
       </div>
 
       {/* Filing Status */}

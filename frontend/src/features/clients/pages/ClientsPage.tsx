@@ -15,6 +15,7 @@ import {
   useExportClients,
 
 } from '../hooks/useClients';
+import type { DuplicateFieldError } from '../hooks/useClients';
 
 import { ClientTable } from '../components/ClientTable';
 
@@ -101,6 +102,12 @@ export function ClientsPage() {
 
   const [deleteConfirm, setDeleteConfirm] = useState<Client | null>(null);
 
+  const [conflictDialog, setConflictDialog] = useState<{
+    error: DuplicateFieldError;
+    formData: any;
+    editingClient: Client | null;
+  } | null>(null);
+
   const [pageError, setPageError] = useState('');
 
   const [successMessage, setSuccessMessage] = useState('');
@@ -167,9 +174,21 @@ export function ClientsPage() {
 
 
 
-  function handleDuplicateError(field: string, message: string) {
+  function handleDuplicateError(dup: DuplicateFieldError) {
 
-    setFormErrors({ [field]: message });
+    // If the backend tells us which client owns the value, show conflict dialog
+    if (dup.conflicting_client_id && dup.conflicting_client_name) {
+      // Store conflict info — the form data will be captured at submit time
+      // via the closure in handleCreate/handleUpdate
+      setConflictDialog({
+        error: dup,
+        formData: null, // filled in by handleCreate/handleUpdate before re-throw
+        editingClient: editingClient,
+      });
+    } else {
+      // Fallback: just show field error (old behavior)
+      setFormErrors({ [dup.field]: dup.message });
+    }
 
   }
 
@@ -195,10 +214,15 @@ export function ClientsPage() {
 
     } catch (err) {
 
-      if ((err as any)?.response?.status !== 409) {
+      const status = (err as any)?.response?.status;
+
+      if (status !== 409) {
 
         setPageError(getApiErrorMessage(err));
 
+      } else {
+        // Attach formData to the conflict dialog so we can retry after resolution
+        setConflictDialog((prev) => prev ? { ...prev, formData } : null);
       }
 
       throw err;
@@ -227,10 +251,15 @@ export function ClientsPage() {
 
     } catch (err) {
 
-      if ((err as any)?.response?.status !== 409) {
+      const status = (err as any)?.response?.status;
+
+      if (status !== 409) {
 
         setPageError(getApiErrorMessage(err));
 
+      } else {
+        // Attach formData to the conflict dialog so we can retry after resolution
+        setConflictDialog((prev) => prev ? { ...prev, formData } : null);
       }
 
       throw err;
@@ -266,6 +295,61 @@ export function ClientsPage() {
   };
 
 
+
+  const handleConflictUpdateExisting = async () => {
+
+    if (!conflictDialog) return;
+
+    const { error, formData } = conflictDialog;
+
+    try {
+      // Update the existing conflicting client with the current form data
+      await updateMutation.mutateAsync({ id: error.conflicting_client_id!, data: formData });
+
+      setSuccessMessage(`Updated "${error.conflicting_client_name}" with the provided data.`);
+      setConflictDialog(null);
+      setIsFormOpen(false);
+      setEditingClient(null);
+    } catch (err) {
+      setPageError(getApiErrorMessage(err));
+      setConflictDialog(null);
+    }
+
+  };
+
+  const handleConflictDeleteExisting = async () => {
+
+    if (!conflictDialog) return;
+
+    const { error, formData, editingClient: original } = conflictDialog;
+
+    try {
+      // Delete the conflicting client, then save the current client
+      await deleteMutation.mutateAsync(error.conflicting_client_id!);
+
+      if (original) {
+        // We were editing — update the original client
+        await updateMutation.mutateAsync({ id: original.id, data: formData });
+      } else {
+        // We were creating — create the new client
+        await createMutation.mutateAsync(formData);
+      }
+
+      setSuccessMessage(`Deleted "${error.conflicting_client_name}" and saved the current client.`);
+      setConflictDialog(null);
+      setIsFormOpen(false);
+      setEditingClient(null);
+    } catch (err) {
+      setPageError(getApiErrorMessage(err));
+      setConflictDialog(null);
+    }
+
+  };
+
+  const handleConflictCancel = () => {
+    setConflictDialog(null);
+    setFormErrors({});
+  };
 
   const handleExport = async () => {
 
@@ -946,6 +1030,53 @@ export function ClientsPage() {
 
         </div>
 
+      )}
+
+      {conflictDialog && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4">
+            <div className="fixed inset-0 bg-black/50 transition-opacity" onClick={handleConflictCancel} aria-hidden="true" />
+            <div className="relative w-full max-w-md bg-white rounded-xl shadow-xl p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-2 bg-amber-100 rounded-full flex-shrink-0">
+                  <AlertTriangle className="h-6 w-6 text-amber-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-slate-900">Duplicate {conflictDialog.error.field.toUpperCase()} Detected</h3>
+                  <p className="mt-2 text-sm text-slate-500">
+                    <strong>{conflictDialog.error.message}</strong>
+                  </p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    What would you like to do?
+                  </p>
+                  <div className="mt-6 flex flex-col gap-2">
+                    <button
+                      onClick={handleConflictUpdateExisting}
+                      className="btn-primary w-full justify-center"
+                      disabled={updateMutation.isPending || deleteMutation.isPending}
+                    >
+                      Update ""
+                    </button>
+                    <button
+                      onClick={handleConflictDeleteExisting}
+                      className="btn-danger w-full justify-center"
+                      disabled={updateMutation.isPending || deleteMutation.isPending}
+                    >
+                      Delete "" &amp; Save Current
+                    </button>
+                    <button
+                      onClick={handleConflictCancel}
+                      className="btn-secondary w-full justify-center"
+                      disabled={updateMutation.isPending || deleteMutation.isPending}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
     </div>
