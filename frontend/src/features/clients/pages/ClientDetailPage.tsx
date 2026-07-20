@@ -134,8 +134,8 @@ export function ClientDetailPage() {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [pageMessage, setPageMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  function handleDuplicateError(field: string, message: string) {
-    setFormErrors({ [field]: message });
+  function handleDuplicateError(err: { field: string; message: string; conflicting_client_name?: string }) {
+    setFormErrors({ [err.field]: err.message });
   }
 
   const setTab = useCallback((tab: TabId) => {

@@ -5,6 +5,8 @@ import type { ClientCreate, ClientUpdate, ClientFilters, ClientListResponse, Cli
 interface DuplicateFieldError {
   field: string;
   message: string;
+  conflicting_client_id?: string;
+  conflicting_client_name?: string;
 }
 
 function extractDuplicateError(error: unknown): DuplicateFieldError | null {
@@ -17,6 +19,9 @@ function extractDuplicateError(error: unknown): DuplicateFieldError | null {
   }
   return null;
 }
+
+export type { DuplicateFieldError };
+export { extractDuplicateError };
 
 export function useClients(filters?: ClientFilters) {
   return useQuery<ClientListResponse>({
@@ -34,7 +39,7 @@ export function useClient(id: string) {
   });
 }
 
-export function useCreateClient(onError?: (field: string, message: string) => void) {
+export function useCreateClient(onError?: (error: DuplicateFieldError) => void) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -45,13 +50,13 @@ export function useCreateClient(onError?: (field: string, message: string) => vo
     onError: (error: unknown) => {
       const dup = extractDuplicateError(error);
       if (dup && onError) {
-        onError(dup.field, dup.message);
+        onError(dup);
       }
     },
   });
 }
 
-export function useUpdateClient(onError?: (field: string, message: string) => void) {
+export function useUpdateClient(onError?: (error: DuplicateFieldError) => void) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -66,7 +71,7 @@ export function useUpdateClient(onError?: (field: string, message: string) => vo
     onError: (error: unknown) => {
       const dup = extractDuplicateError(error);
       if (dup && onError) {
-        onError(dup.field, dup.message);
+        onError(dup);
       }
     },
   });

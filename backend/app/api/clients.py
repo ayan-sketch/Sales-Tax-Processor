@@ -205,6 +205,7 @@ def apply_client_filters(
     search: Optional[str] = None,
     sales_tax_registered: Optional[bool] = None,
     withholding_registered: Optional[bool] = None,
+    kpra_registered: Optional[bool] = None,
     is_active: Optional[bool] = None,
     date_from: Optional[str] = None,
     date_to: Optional[str] = None,
@@ -229,6 +230,8 @@ def apply_client_filters(
         query = query.filter(Client.sales_tax_registered == sales_tax_registered)
     if withholding_registered is not None:
         query = query.filter(Client.withholding_registered == withholding_registered)
+    if kpra_registered is not None:
+        query = query.filter(Client.kpra_registered == kpra_registered)
     if is_active is not None:
         query = query.filter(Client.is_active == is_active)
     if date_from:
@@ -265,7 +268,12 @@ def create_client(
         if existing:
             raise HTTPException(
                 status_code=409,
-                detail={"field": "ntn", "message": "NTN already exists in the system"}
+                detail={
+                    "field": "ntn",
+                    "message": f"NTN already assigned to '{existing.client_name}'",
+                    "conflicting_client_id": str(existing.id),
+                    "conflicting_client_name": existing.client_name,
+                }
             )
     
     if client_dict.get("cnic"):
@@ -273,7 +281,12 @@ def create_client(
         if existing:
             raise HTTPException(
                 status_code=409,
-                detail={"field": "cnic", "message": "CNIC already exists in the system"}
+                detail={
+                    "field": "cnic",
+                    "message": f"CNIC already assigned to '{existing.client_name}'",
+                    "conflicting_client_id": str(existing.id),
+                    "conflicting_client_name": existing.client_name,
+                }
             )
     
     if client_dict.get("strn"):
@@ -281,7 +294,12 @@ def create_client(
         if existing:
             raise HTTPException(
                 status_code=409,
-                detail={"field": "strn", "message": "STRN already exists in the system"}
+                detail={
+                    "field": "strn",
+                    "message": f"STRN already assigned to '{existing.client_name}'",
+                    "conflicting_client_id": str(existing.id),
+                    "conflicting_client_name": existing.client_name,
+                }
             )
     
     client = Client(**client_dict)
@@ -332,6 +350,7 @@ def get_clients(
     search: Optional[str] = Query(None),
     sales_tax_registered: Optional[str] = Query(None),
     withholding_registered: Optional[str] = Query(None),
+    kpra_registered: Optional[str] = Query(None),
     is_active: Optional[str] = Query(None),
     date_from: Optional[str] = Query(None),
     date_to: Optional[str] = Query(None),
@@ -345,6 +364,7 @@ def get_clients(
         query, search,
         _parse_bool(sales_tax_registered),
         _parse_bool(withholding_registered),
+        _parse_bool(kpra_registered),
         _parse_bool(is_active),
         date_from, date_to
     )
@@ -367,6 +387,7 @@ def export_clients_csv(
     search: Optional[str] = Query(None),
     sales_tax_registered: Optional[str] = Query(None),
     withholding_registered: Optional[str] = Query(None),
+    kpra_registered: Optional[str] = Query(None),
     is_active: Optional[str] = Query(None),
     date_from: Optional[str] = Query(None),
     date_to: Optional[str] = Query(None),
@@ -378,6 +399,7 @@ def export_clients_csv(
         query, search,
         _parse_bool(sales_tax_registered),
         _parse_bool(withholding_registered),
+        _parse_bool(kpra_registered),
         _parse_bool(is_active),
         date_from, date_to
     )
@@ -529,6 +551,7 @@ def update_client(
     update_data = sanitize_client_data(client_data.model_dump(exclude_unset=True))
     
     # Check for duplicates on update with field-level error info
+    # and include the conflicting client's details for resolution
     if "ntn" in update_data and update_data["ntn"]:
         existing = db.query(Client).filter(
             Client.ntn == update_data["ntn"],
@@ -537,7 +560,12 @@ def update_client(
         if existing:
             raise HTTPException(
                 status_code=409,
-                detail={"field": "ntn", "message": "NTN already exists in the system"}
+                detail={
+                    "field": "ntn",
+                    "message": f"NTN already assigned to '{existing.client_name}'",
+                    "conflicting_client_id": str(existing.id),
+                    "conflicting_client_name": existing.client_name,
+                }
             )
     
     if "cnic" in update_data and update_data["cnic"]:
@@ -548,7 +576,12 @@ def update_client(
         if existing:
             raise HTTPException(
                 status_code=409,
-                detail={"field": "cnic", "message": "CNIC already exists in the system"}
+                detail={
+                    "field": "cnic",
+                    "message": f"CNIC already assigned to '{existing.client_name}'",
+                    "conflicting_client_id": str(existing.id),
+                    "conflicting_client_name": existing.client_name,
+                }
             )
     
     if "strn" in update_data and update_data["strn"]:
@@ -559,7 +592,12 @@ def update_client(
         if existing:
             raise HTTPException(
                 status_code=409,
-                detail={"field": "strn", "message": "STRN already exists in the system"}
+                detail={
+                    "field": "strn",
+                    "message": f"STRN already assigned to '{existing.client_name}'",
+                    "conflicting_client_id": str(existing.id),
+                    "conflicting_client_name": existing.client_name,
+                }
             )
     
     for field, value in update_data.items():

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { FileText, Sheet, Image, File, MoreVertical, Download, Trash2, Pencil, FolderInput, Copy, FolderOpen, Monitor, Verified, Eye } from 'lucide-react'
 import { format } from 'date-fns'
 import type { Document, DocumentCategory, FilingStatus } from '../types/document'
-import { DOCUMENT_CATEGORY_OPTIONS, FILING_STATUS_OPTIONS, formatFileSize, getFileTypeBgColor } from '../types/document'
+import { DOCUMENT_CATEGORY_OPTIONS, FILING_STATUS_OPTIONS, MONTHS, formatFileSize, getFileTypeBgColor } from '../types/document'
 import { useDocumentStore } from '../stores/useDocumentStore'
 
 interface DocumentCardProps {
@@ -156,9 +156,14 @@ export function DocumentCard({ document: doc, onPreview, onDownload, onRename, o
           {getStatusBadge(doc.filing_status)}
         </div>
 
-        {/* Bottom row: size + date + actions */}
+        {/* Bottom row: size + month + date + actions */}
         <div className="flex items-center justify-between text-xs text-slate-400 pt-3 border-t border-slate-100">
-          <span>{formatFileSize(doc.file_size)}</span>
+          <div className="flex items-center gap-2">
+            <span>{formatFileSize(doc.file_size)}</span>
+            {doc.tax_month && (
+              <span className="text-primary-500 font-medium">{MONTHS[doc.tax_month - 1]?.label.slice(0, 3)}</span>
+            )}
+          </div>
           <div className="flex items-center gap-1">
             <button
               onClick={(e) => { e.stopPropagation(); onPreview?.(doc) }}

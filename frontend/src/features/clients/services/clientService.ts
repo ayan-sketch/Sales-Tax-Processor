@@ -9,6 +9,7 @@ export const clientService = {
     if (filters?.search) params.append('search', filters.search);
     if (filters?.sales_tax_registered !== undefined) params.append('sales_tax_registered', filters.sales_tax_registered.toString());
     if (filters?.withholding_registered !== undefined) params.append('withholding_registered', filters.withholding_registered.toString());
+    if (filters?.kpra_registered !== undefined) params.append('kpra_registered', filters.kpra_registered.toString());
     if (filters?.is_active !== undefined) params.append('is_active', filters.is_active.toString());
     if (filters?.date_from) params.append('date_from', filters.date_from);
     if (filters?.date_to) params.append('date_to', filters.date_to);
@@ -39,6 +40,7 @@ export const clientService = {
     if (filters?.search) params.append('search', filters.search);
     if (filters?.sales_tax_registered !== undefined) params.append('sales_tax_registered', filters.sales_tax_registered.toString());
     if (filters?.withholding_registered !== undefined) params.append('withholding_registered', filters.withholding_registered.toString());
+    if (filters?.kpra_registered !== undefined) params.append('kpra_registered', filters.kpra_registered.toString());
     if (filters?.is_active !== undefined) params.append('is_active', filters.is_active.toString());
     if (filters?.date_from) params.append('date_from', filters.date_from);
     if (filters?.date_to) params.append('date_to', filters.date_to);
