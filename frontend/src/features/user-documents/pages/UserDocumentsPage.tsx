@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import {
-  Upload, Download, Eye, Trash2, Pencil, Move, FileText, Grid3X3, List,
-  Search, Loader2, ChevronLeft, ChevronRight, ArrowUpDown, FolderUp,
+  Upload, Download, Eye, Trash2, Pencil, FileText, Grid3X3, List,
+  Search, Loader2, ChevronLeft, ChevronRight, ArrowUpDown,
 } from 'lucide-react'
 import { FolderSidebar } from '../components/FolderSidebar'
 import { userDocumentService } from '../services/userDocumentService'
@@ -40,7 +40,6 @@ export function UserDocumentsPage() {
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null)
   const [previewDoc, setPreviewDoc] = useState<UserDocument | null>(null)
   const [renaming, setRenaming] = useState<{ id: string; name: string } | null>(null)
-  const [moving, setMoving] = useState<{ id: string } | null>(null)
   const [uploadOpen, setUploadOpen] = useState(false)
   const [uploadFiles, setUploadFiles] = useState<File[]>([])
   const [uploading, setUploading] = useState(false)
@@ -114,15 +113,6 @@ export function UserDocumentsPage() {
     try {
       await userDocumentService.renameDocument(renaming.id, renaming.name.trim())
       setRenaming(null)
-      loadDocs()
-    } catch { }
-  }
-
-  const handleMove = async (folderId: string) => {
-    if (!moving) return
-    try {
-      await userDocumentService.moveDocument(moving.id, folderId)
-      setMoving(null)
       loadDocs()
     } catch { }
   }

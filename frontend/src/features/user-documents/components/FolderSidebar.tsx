@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Folder, FolderPlus, FolderOpen, ChevronRight, ChevronDown, MoreHorizontal, Pencil, Trash2, Plus, Loader2, FileText } from 'lucide-react'
+import { Folder, FolderPlus, FolderOpen, ChevronRight, ChevronDown, Pencil, Trash2, Plus, Loader2, FileText } from 'lucide-react'
 import { userDocumentService } from '../services/userDocumentService'
 import type { FolderNode } from '../types/userDocument'
 
